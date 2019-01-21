@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,HMM,AI,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、基本思路和实现过程1. 问题描述给出一个拼音串，例如：  qing hua da xue  如何找到对应的汉字呢？">
+<meta name="keywords" content="python,HMM,AI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python与HMM实现简单拼音输入法">
+<meta property="og:url" content="http://yoursite.com/2018/04/23/Python与HMM实现简单拼音输入法/index.html">
+<meta property="og:site_name" content="张玍的博客">
+<meta property="og:description" content="一、基本思路和实现过程1. 问题描述给出一个拼音串，例如：  qing hua da xue  如何找到对应的汉字呢？">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/04/23/Python与HMM实现简单拼音输入法/Snipaste_2018-04-21_10-36-40.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/23/Python与HMM实现简单拼音输入法/v2-4795cb3b48274f9ba6ea547d1da96451_r.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/04/23/Python与HMM实现简单拼音输入法/accuracy.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/23/Python与HMM实现简单拼音输入法/sentence_len2accuracy.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/23/Python与HMM实现简单拼音输入法/par.png">
+<meta property="og:updated_time" content="2018-12-29T04:10:38.871Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python与HMM实现简单拼音输入法">
+<meta name="twitter:description" content="一、基本思路和实现过程1. 问题描述给出一个拼音串，例如：  qing hua da xue  如何找到对应的汉字呢？">
+<meta name="twitter:image" content="http://yoursite.com/2018/04/23/Python与HMM实现简单拼音输入法/Snipaste_2018-04-21_10-36-40.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/23/Python与HMM实现简单拼音输入法/">
+
+
+
+
+
+  <title>Python与HMM实现简单拼音输入法 | 张玍的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">张玍的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">发现生活中的美好</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/23/Python与HMM实现简单拼音输入法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张玍">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张玍的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python与HMM实现简单拼音输入法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-23T20:25:42+08:00">
+                2018-04-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、基本思路和实现过程"><a href="#一、基本思路和实现过程" class="headerlink" title="一、基本思路和实现过程"></a>一、基本思路和实现过程</h2><h3 id="1-问题描述"><a href="#1-问题描述" class="headerlink" title="1. 问题描述"></a>1. 问题描述</h3><p>给出一个拼音串，例如：</p>
+<blockquote>
+<p>qing hua da xue</p>
+</blockquote>
+<p>如何找到对应的汉字呢？<a id="more"></a>请注意，这里的拼音串不同的拼音之间是有空格隔开的，并且不包含标点符号。</p>
+<h3 id="2-基于隐马尔科夫（HMM）的拼音输入法"><a href="#2-基于隐马尔科夫（HMM）的拼音输入法" class="headerlink" title="2. 基于隐马尔科夫（HMM）的拼音输入法"></a>2. 基于隐马尔科夫（HMM）的拼音输入法</h3><p>继续考虑上面的问题。其中每个拼音都可能对应多个汉字，整体上构成一个复杂的网络，对应多种汉字组合：</p>
+<p><img src="/2018/04/23/Python与HMM实现简单拼音输入法/Snipaste_2018-04-21_10-36-40.png" alt=""></p>
+<p>我们可以把这个问题看成一个路径优化问题：我们认为汉语中每个字的出现不是偶然的，而是与上一个字存在某种联系，从而从上一个字到这个字可能存在某种概率，而且不同组合概率不同。显然这与我们的生活经验相符，比如“清华”出现的概率应该比“清话”和“清花”大。如果把这个概率看成一种路径长度，那么我们就是要找到最长的路径（只不过这里的路径“长度”是不同路径相乘得到——那么也可以将概率的对数视为真正的路径长度，但事实上没必要这么实现）。这恰好对应隐马尔可夫模型（Hidden Markov Model，HMM）。百科上的解释是它是一个含有隐含未知参数的<a href="https://link.zhihu.com/?target=https%3A//baike.baidu.com/item/%25E9%25A9%25AC%25E5%25B0%2594%25E5%258F%25AF%25E5%25A4%25AB%25E8%25BF%2587%25E7%25A8%258B" target="_blank" rel="noopener">马尔可夫过程</a>。马尔可夫过程简单地说就是一个过程的一个状态由它的上一状态决定。之所以是隐马尔可夫模型，主要是这个状态序列是“隐藏”的。比如我们随便输入的一个句子基本上是之前没有输入过的。</p>
+<p>考虑这样一个网络：</p>
+<p><img src="/2018/04/23/Python与HMM实现简单拼音输入法/v2-4795cb3b48274f9ba6ea547d1da96451_r.jpg" alt=""></p>
+<p>我们将上面的解析抽象为数学问题，目标也就是：</p>
+<script type="math/tex; mode=display">
+\max{\prod_{i=1}^n{P(w_i|w_{i-1})\mathit{CF}(w_i)}}</script><p>其中：</p>
+<script type="math/tex; mode=display">
+P(w_i|w_{i-1})=\frac{w_iw_{i-1}同时出现的次数}{w_{i-1}出现的次数}</script><p>为了解决$P(w_i|w_{i-1})$ 可能为0的问题，采用平滑的方法：</p>
+<script type="math/tex; mode=display">
+\lambda P(w_i|w_{i-1})+(1-\lambda)P(w_i)\Rightarrow P(w_i|w_{i-1})</script><p>实验中，通过选取多组参数确定最佳的$\lambda$ 的取值。</p>
+<p>此外，还有一个问题是，$w_{i-1}$ 也有可能为0. 在我的统计结果中，7272个汉字中以下汉字的出现次数为0：</p>
+<blockquote>
+<p>锿 砹 揞 茇 鞴 庳 笾 窆 瘭 醭 骖 楱 镩 榱 鹾 骣 冁 躔 蒇 傺 膪 舡 怛 赕 忉 帱 铞 髑 芏 憝 砘 裰 缍 苊 鲕 镄 篚 唪 鳆 砩 艴 钆 戤 槔 袼 虼 塥 觏 遘 诖 涫 匦 猓 蜾 馘 胲 糇 鹱 冱 擐 萑 蟪 咴 阍 劐 锪 哜 丌 墼 裥 鞯 戋 洚 鹪 僬 纟 鲒 骱 赆 獍 刭 弪 僦 鬏 醵 锩 胩 佧 蒈 闶 裉 眍 芤 蒉 悃 漤 耢 缧 缡 裣 癃 硵 镥 稆 锊 呒 鞔 硭 猸 镅 蠛 蛑 毪 镎 肭 蝻 耪 旆 堋 仳 擗 螵 缏 氕 肷 锖 鞒 劁 愀 吣 赇 肜 脎 鳋 锼 瞍 嗾 谇 唼 髟 胂 矧 铈 铴 耥 慝 掭 龆 酴 腽 芄 阢 饩 莶 蟓 枵 绁 砉 痃 泶 獯 曛 厣 阽 蛘 轺 铘 酏 狺 铕 窬 箢 眢 拶 驵 唣 趑 腙 鲰 觜 阼 齄 瘵 嫜 磔 膣 瘛 荮 瘃 窀 </p>
+</blockquote>
+<p>显然这些都是非常用字，我基本上一个都不认识。只能直接将概率设为0.</p>
+<h3 id="3-维比特算法"><a href="#3-维比特算法" class="headerlink" title="3. 维比特算法"></a>3. 维比特算法</h3><p>每个拼音对应多个汉字，比如：</p>
+<blockquote>
+<p>a 阿啊呵锕吖腌嗄</p>
+</blockquote>
+<p>从而多个拼音对应多层汉字。需要用动态规划的算法寻找最优路径：</p>
+<ol>
+<li><p>对于第一层，不需要求最大路径概率，只需要求该层各个汉字的概率。</p>
+</li>
+<li><p>对于后面所有层，递推关系式：</p>
+<script type="math/tex; mode=display">
+P(W_{i,j})=\max_k{(P(W_{i-1, k})\times P(W_{i-1, k}|W_{i,j}))}</script><p>其中，$P(W_{i,j})$ 为点$W_{i,j}$ 的最佳路径值， $P(W_{i-1, k}|W_{i,j})$ 为$W_{i-1,j}$ 到$W_{i,k}$ 的发射概率。</p>
+</li>
+</ol>
+<h3 id="4-统计词频"><a href="#4-统计词频" class="headerlink" title="4. 统计词频"></a>4. 统计词频</h3><p>我们需要知道每一个字出现的次数，每一个词和其他的字同时出现的次数。汉字的个数太多，共七千多个。如果两两组合构建矩阵，大小为7000*7000。当然，这个矩阵是相当稀疏的。可以考虑用字典+字典的数据结构。</p>
+<p>首先，已经构造拼音与汉字对应表，由此可以构造pinyin2hanzi词典。</p>
+<p>其次，对所有汉字给定编码，构造词典。</p>
+<p>再次，对所有汉字统计出现次数。</p>
+<p>最后，对汉字矩阵统计出现次数。</p>
+<p>方法是遍历语料库。每一行的结果需要判断汉字串（可能被各种标点符号切割）。对每个汉字串，遍历即可。</p>
+<h2 id="二、输入法效果展示"><a href="#二、输入法效果展示" class="headerlink" title="二、输入法效果展示"></a>二、输入法效果展示</h2><h3 id="1-正确率较低的样例"><a href="#1-正确率较低的样例" class="headerlink" title="1. 正确率较低的样例"></a>1. 正确率较低的样例</h3><p>取$\lambda$ =0.99，对于测试集<a href="https://github.com/THUzhangga/HMM_shurufa/blob/master/data/test_set.txt全集，平均正确率为71.4%。正确率的统计情况如下图：" target="_blank" rel="noopener">https://github.com/THUzhangga/HMM_shurufa/blob/master/data/test_set.txt全集，平均正确率为71.4%。正确率的统计情况如下图：</a></p>
+<p><img src="/2018/04/23/Python与HMM实现简单拼音输入法/accuracy.png" alt="accuracy"></p>
+<p>从上图可见大部分的句子正确率较高，但是仍有相当一部分句子正确率很低。下表为正确率在0.2以下的测试样例及输出结果（已经剔除只有一个字的“句子”）。从表可见正确率较低的句子大部分是诗句，可以通过增强这些诗句的权重来改进。另外某些句子的拼音本身就易造成歧义，比如“xiang xiang ji”的输出结果为“想象级”，而正确结果为“香香鸡”。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>输入结果</th>
+<th>正确结果</th>
+<th>正确率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>经嗽和大厦也显示认领提</td>
+<td>惊搜狐大厦夜现食人灵体</td>
+<td>0.181818</td>
+</tr>
+<tr>
+<td>他是最阏氏广</td>
+<td>她是罪恶之光</td>
+<td>0.166667</td>
+</tr>
+<tr>
+<td>迹象风不方调簦合收昭山和</td>
+<td>既相逢不妨挑灯呵手照山河</td>
+<td>0.166667</td>
+</tr>
+<tr>
+<td>府网站厮杀场</td>
+<td>斧王战死沙场</td>
+<td>0.166667</td>
+</tr>
+<tr>
+<td>认为深麽舀水较</td>
+<td>人为什么要睡觉</td>
+<td>0.142857</td>
+</tr>
+<tr>
+<td>策影翻沉着孩说</td>
+<td>侧影反衬著海水</td>
+<td>0.142857</td>
+</tr>
+<tr>
+<td>和方殷小切需行</td>
+<td>何妨吟啸且徐行</td>
+<td>0.142857</td>
+</tr>
+<tr>
+<td>务事人肥市食宿</td>
+<td>物是人非事事休</td>
+<td>0.142857</td>
+</tr>
+<tr>
+<td>主播票等都秭归</td>
+<td>珠箔飘灯独自归</td>
+<td>0.142857</td>
+</tr>
+<tr>
+<td>一芟夷山梁静静</td>
+<td>一闪一闪亮晶晶</td>
+<td>0.142857</td>
+</tr>
+<tr>
+<td>立名侨侨华国天便</td>
+<td>黎明悄悄划过天边</td>
+<td>0.125</td>
+</tr>
+<tr>
+<td>烃含四种生情也佛</td>
+<td>听寒寺钟声请野佛</td>
+<td>0.125</td>
+</tr>
+<tr>
+<td>来岜莱巴和向上海拔</td>
+<td>来吧来吧互相伤害吧</td>
+<td>0.111111</td>
+</tr>
+<tr>
+<td>想象级</td>
+<td>香香鸡</td>
+<td>0</td>
+</tr>
+<tr>
+<td>新入名景泰</td>
+<td>心如明镜台</td>
+<td>0</td>
+</tr>
+<tr>
+<td>名警一腓肽</td>
+<td>明镜亦非台</td>
+<td>0</td>
+</tr>
+<tr>
+<td>政部自哐当</td>
+<td>争不恣狂荡</td>
+<td>0</td>
+</tr>
+<tr>
+<td>和叙伦的桑</td>
+<td>何须论得丧</td>
+<td>0</td>
+</tr>
+<tr>
+<td>子失败一圊向</td>
+<td>自是白衣卿相</td>
+<td>0</td>
+</tr>
+<tr>
+<td>岩画像没</td>
+<td>烟花巷陌</td>
+<td>0</td>
+</tr>
+<tr>
+<td>看汛防</td>
+<td>堪寻访</td>
+<td>0</td>
+</tr>
+<tr>
+<td>评省长</td>
+<td>平生畅</td>
+<td>0</td>
+</tr>
+<tr>
+<td>务于茉莉莎</td>
+<td>雾雨魔理沙</td>
+<td>0</td>
+</tr>
+<tr>
+<td>校和财路见建交</td>
+<td>小荷才露尖尖角</td>
+<td>0</td>
+</tr>
+<tr>
+<td>动枫叶芳华签署</td>
+<td>东风夜放花千树</td>
+<td>0</td>
+</tr>
+<tr>
+<td>桂西柳子瘢痕将</td>
+<td>贵系六字班很强</td>
+<td>0</td>
+</tr>
+<tr>
+<td>作业与庶锋舟</td>
+<td>昨夜雨疏风骤</td>
+<td>0</td>
+</tr>
+<tr>
+<td>声喊一般选</td>
+<td>剩寒意盘旋</td>
+<td>0</td>
+</tr>
+<tr>
+<td>一孟维码</td>
+<td>以梦为马</td>
+<td>0</td>
+</tr>
+<tr>
+<td>将槲叶玉石碾等</td>
+<td>江湖夜雨十年灯</td>
+<td>0</td>
+</tr>
+<tr>
+<td>五十一道</td>
+<td>午时已到</td>
+<td>0</td>
+</tr>
+<tr>
+<td>策是杨立即</td>
+<td>测试样例集</td>
+<td>0</td>
+</tr>
+<tr>
+<td>构负圭吾乡王</td>
+<td>苟富贵毋相忘</td>
+<td>0</td>
+</tr>
+<tr>
+<td>泰晤拉</td>
+<td>太污啦</td>
+<td>0</td>
+</tr>
+<tr>
+<td>有四阮西嘌醇血</td>
+<td>游丝软系飘春榭</td>
+<td>0</td>
+</tr>
+<tr>
+<td>络虚情展溥修炼</td>
+<td>落絮轻沾扑绣帘</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="2-正确率与句子长短关系"><a href="#2-正确率与句子长短关系" class="headerlink" title="2. 正确率与句子长短关系"></a>2. 正确率与句子长短关系</h3><p>对于每个句子，句子长短和正确率关系如下：</p>
+<p><img src="/2018/04/23/Python与HMM实现简单拼音输入法/sentence_len2accuracy.png" alt=""></p>
+<p>以最长的三个句子为例：</p>
+<blockquote>
+<p>输出结果1：安装具有复杂电子控制系统的现代知道无期待提过去相对简单而笨重的火炮系统</p>
+<p>正确结果1：安装具有复杂电子控制系统的现代制导武器代替过去相对简单而笨重的火炮系统</p>
+<p>输出结果2：位于美国家利福尼亚洲旧金山玩的阿尔卡特拉斯岛上的联邦监狱遭到废止</p>
+<p>正确结果2：位于美国加利福尼亚州旧金山湾的阿尔卡特拉斯岛上的联邦监狱遭到废止</p>
+</blockquote>
+<p>可见长句子的正确率也比较高。主要是因为测试集中的长句子词语较多，相互关联性也较强。</p>
+<h2 id="三、参数选择及性能分析"><a href="#三、参数选择及性能分析" class="headerlink" title="三、参数选择及性能分析"></a>三、参数选择及性能分析</h2><p>我选取了多组$\lambda$ 的取值，并计算其对于测试集全集的正确率。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>$\lambda$</th>
+<th>accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0.469427</td>
+</tr>
+<tr>
+<td>0.1</td>
+<td>0.575385</td>
+</tr>
+<tr>
+<td>0.2</td>
+<td>0.586337</td>
+</tr>
+<tr>
+<td>0.3</td>
+<td>0.597588</td>
+</tr>
+<tr>
+<td>0.4</td>
+<td>0.608349</td>
+</tr>
+<tr>
+<td>0.5</td>
+<td>0.615254</td>
+</tr>
+<tr>
+<td>0.6</td>
+<td>0.625446</td>
+</tr>
+<tr>
+<td>0.7</td>
+<td>0.640778</td>
+</tr>
+<tr>
+<td>0.8</td>
+<td>0.654613</td>
+</tr>
+<tr>
+<td>0.9</td>
+<td>0.674134</td>
+</tr>
+<tr>
+<td>0.95</td>
+<td>0.686197</td>
+</tr>
+<tr>
+<td>0.99</td>
+<td>0.714261</td>
+</tr>
+<tr>
+<td>0.999</td>
+<td>0.728808</td>
+</tr>
+<tr>
+<td>0.9999</td>
+<td>0.730258</td>
+</tr>
+<tr>
+<td>0.99999</td>
+<td>0.730011</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0.727696</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="/2018/04/23/Python与HMM实现简单拼音输入法/par.png" alt=""></p>
+<p>从上表及上图可见，随着$\lambda$ 取值的增加，正确率逐渐增加。在$\lambda$ 超过0.9后，增加得比较平稳。最高值出现在0.9999左右，而之后取0.99999和1正确率都有略微下降。因此，对于本测试集，平滑参数的加入确实能提高正确率，但是提高程度很有限。</p>
+<h2 id="四、代码及数据下载"><a href="#四、代码及数据下载" class="headerlink" title="四、代码及数据下载"></a>四、代码及数据下载</h2><p><a href="https://github.com/THUzhangga/HMM_shurufa" target="_blank" rel="noopener">https://github.com/THUzhangga/HMM_shurufa</a></p>
+<p>下载后在data/input.txt中输入拼音串，不同的拼音用空格隔开，不同的句子之间换行。有些带有ü的拼音可以用v或u替代。运行src中的shurufa.py脚本，在data/output.txt中就是生成的汉字。 </p>
+<p>最后祝你身体健康，再见。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/HMM/" rel="tag"># HMM</a>
+          
+            <a href="/tags/AI/" rel="tag"># AI</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/17/数字流域模型教程1——安装配置Oracle/" rel="prev" title="数字流域模型教程1——安装配置Oracle">
+                数字流域模型教程1——安装配置Oracle <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">张玍</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、基本思路和实现过程"><span class="nav-number">1.</span> <span class="nav-text">一、基本思路和实现过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-问题描述"><span class="nav-number">1.1.</span> <span class="nav-text">1. 问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-基于隐马尔科夫（HMM）的拼音输入法"><span class="nav-number">1.2.</span> <span class="nav-text">2. 基于隐马尔科夫（HMM）的拼音输入法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-维比特算法"><span class="nav-number">1.3.</span> <span class="nav-text">3. 维比特算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-统计词频"><span class="nav-number">1.4.</span> <span class="nav-text">4. 统计词频</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、输入法效果展示"><span class="nav-number">2.</span> <span class="nav-text">二、输入法效果展示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-正确率较低的样例"><span class="nav-number">2.1.</span> <span class="nav-text">1. 正确率较低的样例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-正确率与句子长短关系"><span class="nav-number">2.2.</span> <span class="nav-text">2. 正确率与句子长短关系</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、参数选择及性能分析"><span class="nav-number">3.</span> <span class="nav-text">三、参数选择及性能分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、代码及数据下载"><span class="nav-number">4.</span> <span class="nav-text">四、代码及数据下载</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张玍</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

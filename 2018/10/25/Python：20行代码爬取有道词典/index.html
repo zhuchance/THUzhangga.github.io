@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="dyrim,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1. 引言前阵子英语老师为我们准备了4000词汇的大礼包，之后连续3、4天不停地从有道词典复制粘贴中文释义。得知此事我很感动，于是希望能自动化为她完成中文释义爬取工作。">
+<meta name="keywords" content="dyrim">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python：20行代码爬取有道词典">
+<meta property="og:url" content="http://yoursite.com/2018/10/25/Python：20行代码爬取有道词典/index.html">
+<meta property="og:site_name" content="张玍的博客">
+<meta property="og:description" content="1. 引言前阵子英语老师为我们准备了4000词汇的大礼包，之后连续3、4天不停地从有道词典复制粘贴中文释义。得知此事我很感动，于是希望能自动化为她完成中文释义爬取工作。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/10/25/Python：20行代码爬取有道词典/1e5646fa513d269735bd8de25efbb2fb4216d85a.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/10/25/Python：20行代码爬取有道词典/9213b07eca806538cebb0d559ddda144ad348227.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/10/25/Python：20行代码爬取有道词典/1539961825903.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/25/Python：20行代码爬取有道词典/xmb">
+<meta property="og:image" content="http://yoursite.com/2018/10/25/Python：20行代码爬取有道词典/1539963896690.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/25/Python：20行代码爬取有道词典/1539964058075.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/25/Python：20行代码爬取有道词典/1539965040531.png">
+<meta property="og:updated_time" content="2018-11-20T06:28:30.030Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python：20行代码爬取有道词典">
+<meta name="twitter:description" content="1. 引言前阵子英语老师为我们准备了4000词汇的大礼包，之后连续3、4天不停地从有道词典复制粘贴中文释义。得知此事我很感动，于是希望能自动化为她完成中文释义爬取工作。">
+<meta name="twitter:image" content="http://yoursite.com/2018/10/25/Python：20行代码爬取有道词典/1e5646fa513d269735bd8de25efbb2fb4216d85a.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/25/Python：20行代码爬取有道词典/">
+
+
+
+
+
+  <title>Python：20行代码爬取有道词典 | 张玍的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">张玍的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">发现生活中的美好</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/25/Python：20行代码爬取有道词典/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张玍">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张玍的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python：20行代码爬取有道词典</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-25T19:51:29+08:00">
+                2018-10-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h3><p>前阵子英语老师为我们准备了4000词汇的大礼包，之后连续3、4天不停地从有道词典复制粘贴中文释义。得知此事我很感动，于是希望能自动化为她完成中文释义爬取工作。 <a id="more"></a></p>
+<p>网络爬虫是一种自动地从网上系统性地抓取数据的程序。说白了，我们手动打开一个网站浏览信息都是在“爬虫”，而且相比爬虫，人能更加灵活地筛选信息。但是让人去找一个单词的意思还好，10s内可以搞定。如果是4000个呢？几天都难弄完，还不保证不出错。这时就需要用到爬虫，用计算机代替我们完成简单重复的工作。</p>
+<h3 id="2-方法"><a href="#2-方法" class="headerlink" title="2. 方法"></a>2. 方法</h3><p>爬虫简直是居家旅行必备工具。那么，在哪里才能买得到呢？</p>
+<p><img src="/2018/10/25/Python：20行代码爬取有道词典/1e5646fa513d269735bd8de25efbb2fb4216d85a.jpg" alt=""></p>
+<p>目前爬虫的工具非常多，甚至有成型的软件。但是对于小需求而言，写段Python脚本足以应付。“技术架构”如下：</p>
+<ol>
+<li><p>用requests库的get方法向服务器请求资源。</p>
+</li>
+<li><p>用bs4库对请求到的资源进行结构化分析，从中提取目标文本。</p>
+</li>
+</ol>
+<p><img src="/2018/10/25/Python：20行代码爬取有道词典/9213b07eca806538cebb0d559ddda144ad348227.jpg" alt=""></p>
+<p>分别解释下：</p>
+<h4 id="2-1-requests请求资源"><a href="#2-1-requests请求资源" class="headerlink" title="2.1 requests请求资源"></a>2.1 requests请求资源</h4><p>我们用浏览器打开一个网站相当于向某个服务器请求资源，比如图片、文本。而requests可以帮助我们在伪装成一个浏览器，获取数据。requests获取的数据长啥样呢？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests <span class="comment"># 导入requests包</span></span><br><span class="line">r = requests.get(<span class="string">'http://www.youdao.com/'</span>) <span class="comment"># 向有道词典网站请求资源</span></span><br><span class="line">print(r.text) <span class="comment"># 打印文本</span></span><br></pre></td></tr></table></figure>
+<p>结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;UTF-8&quot;&gt;&lt;meta name=&quot;keywords&quot; content=&quot;有道, 搜索, 词典, 翻译, 云笔记, 笔记, 惠惠网, 惠惠购物助手, 购物搜索, 图片搜索, 视频搜索, 新闻搜索, 网易有道, 在线翻译, 专业翻译&quot;&gt;&lt;meta name=&quot;description&quot; content=&quot;网易旗下利用大数据技术提供移动互联网应用的子公司，过去8年，先后推出有道词典、有道翻译官、有道云笔记、惠惠网、有道推广、有道精品课、有道口语大师等系列产品，总用户量达到7亿。&quot;&gt;&lt;title&gt;有道首页&lt;/title&gt;&lt;link href=&quot;https://shared.ydstatic.com/images/favicon.ico&quot; type=&quot;image/x-icon&quot; rel=&quot;shortcut icon&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;https://shared.ydstatic.com/dict/v2016/entry/pc3.css&quot;&gt;&lt;script&gt;var _rlog = _rlog || [];</span><br><span class="line">// 指定 product id</span><br><span class="line">_rlog.push([&quot;_setAccount&quot; , &quot;dictweb&quot;]);</span><br></pre></td></tr></table></figure>
+<p>这只截取部分，后面还有很多就不放了。但这乱七八糟的东西与我们在浏览器上看到的赏心悦目的页面不一样啊？别急，在浏览器中右键，点击“查看网页源代码”选项，点开后如下：</p>
+<p><img src="/2018/10/25/Python：20行代码爬取有道词典/1539961825903.png" alt=""></p>
+<p>可以发现开始部分与requests获得的文本是一样的！但浏览器之所以为浏览器，是因为它用这些文本组织起漂亮的页面。</p>
+<h4 id="2-2-BeautifulSoup结构化分析"><a href="#2-2-BeautifulSoup结构化分析" class="headerlink" title="2.2 BeautifulSoup结构化分析"></a>2.2 BeautifulSoup结构化分析</h4><p>通过requests获取的文本根本没法看，那怎么找信息？其实这些文本是一种html语言（ 超文本标记语言），这里粗看下，似乎里面尖括号不少。而这些尖括号代表的就是文本的标签。比如：</p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>有道首页<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>  就定义了网页的标题。其他的尖括号的含义可以百度。但是现在的文本太过凌乱，为了更好地分析标签，我们需要借助BeautifulSoup。具体用法如下：</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests <span class="comment"># 导入requests包</span></span><br><span class="line">r = requests.get(<span class="string">'http://www.youdao.com/'</span>) <span class="comment"># 向有道词典请求资源</span></span><br><span class="line">html = r.text</span><br><span class="line">soup = BeautifulSoup(html, <span class="string">'html.parser'</span>) <span class="comment"># 结构化文本soup</span></span><br><span class="line">print(soup.title)</span><br></pre></td></tr></table></figure>
+<p>  结果如下：</p>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>有道首页<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以看到，所谓的结构化文本(soup)，就是可以通过”.”去访问内部的标签。这样我们距离小目标又进了一大步：只要知道每个单词中文释义的标签，打印下来不就好了！</p>
+<p><img src="/2018/10/25/Python：20行代码爬取有道词典/xmb" alt=""></p>
+<p>如何找到标签呢？以test这个单词为例，它在有道词典中的网址为<a href="http://www.youdao.com/w/eng/test/。在浏览器打开后，在中文释义出右键，点击“检查”选项，然后界面如下：" target="_blank" rel="noopener">http://www.youdao.com/w/eng/test/。在浏览器打开后，在中文释义出右键，点击“检查”选项，然后界面如下：</a></p>
+<p><img src="/2018/10/25/Python：20行代码爬取有道词典/1539963896690.png" alt="1539963896690"></p>
+<p>可以看到，红框内就是我们要的中文释义！可以它似乎被多重标签包围。具体的小框如下：</p>
+<p><img src="/2018/10/25/Python：20行代码爬取有道词典/1539964058075.png" alt=""></p>
+<p>那么，我们只要找到最外层的div这个标签就行了？并非如此，因为div其实有属性！就是尖括号内的<code>class=&quot;trans-container&quot;</code>，它定义了div的名为”class”的属性。而soup恰好能通过标签及其属性寻找对应文本！代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests <span class="comment"># 导入requests包</span></span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line">r = requests.get(<span class="string">'http://www.youdao.com/'</span>) <span class="comment"># 向有道词典请求资源</span></span><br><span class="line">html = r.text</span><br><span class="line">soup = BeautifulSoup(html, <span class="string">'html.parser'</span>) <span class="comment"># 结构化文本soup</span></span><br><span class="line">div = soup.find(name=<span class="string">'div'</span>, attrs=&#123;<span class="string">'class'</span>: <span class="string">'trans-container'</span>&#125;) <span class="comment"># 获取中文释义所在的标签</span></span><br><span class="line">print(div.get_text()) <span class="comment"># 获取标签内文本</span></span><br></pre></td></tr></table></figure>
+<p>结果如下：</p>
+<p><img src="/2018/10/25/Python：20行代码爬取有道词典/1539965040531.png" alt=""></p>
+<p>至此，我们终于成功爬取了有道词典的中文释义！</p>
+<h4 id="2-3-爬虫鲁棒性"><a href="#2-3-爬虫鲁棒性" class="headerlink" title="2.3 爬虫鲁棒性"></a>2.3 爬虫鲁棒性</h4><p>如果爬一两个词上面的程序大概率可以成功。但也许4000词里有的会失败，比如单词不存在，网络中断，Windows自动更新Blabla。</p>
+<p>一方面，可以判断requests是否成功获取资源以及BeautifulSoup是否成功找到目标；另一方面，最好爬完一批次自动存储，即使失败也不必从头再来。</p>
+<p>待更新…</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/dyrim/" rel="tag"># dyrim</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/18/Arcgis按属性提取/" rel="next" title="Arcgis按属性提取">
+                <i class="fa fa-chevron-left"></i> Arcgis按属性提取
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/15/modis-ndvi数据下载与处理/" rel="prev" title="modis ndvi数据下载与处理">
+                modis ndvi数据下载与处理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">张玍</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-引言"><span class="nav-number">1.</span> <span class="nav-text">1. 引言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法"><span class="nav-number">2.</span> <span class="nav-text">2. 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-requests请求资源"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 requests请求资源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-BeautifulSoup结构化分析"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 BeautifulSoup结构化分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-爬虫鲁棒性"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 爬虫鲁棒性</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张玍</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

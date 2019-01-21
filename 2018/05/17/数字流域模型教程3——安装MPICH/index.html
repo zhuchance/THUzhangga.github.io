@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="dyrim,mpich,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="2017年10月24日更新！！！重要：假如mpiexec无法正常调用，出现“rejected”等情况，请查看本指导最后部分！ 2017年4月第一版注：本文参考自http://blog.csdn.net/baidu_33258926/article/details/51372904">
+<meta name="keywords" content="dyrim,mpich">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数字流域模型教程3——安装MPICH">
+<meta property="og:url" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/index.html">
+<meta property="og:site_name" content="张玍的博客">
+<meta property="og:description" content="2017年10月24日更新！！！重要：假如mpiexec无法正常调用，出现“rejected”等情况，请查看本指导最后部分！ 2017年4月第一版注：本文参考自http://blog.csdn.net/baidu_33258926/article/details/51372904">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526546395629.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526546424744.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526546459876.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526546489840.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526546531075.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526546603952.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526546683594.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526546721789.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526546748462.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526546825988.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526546844431.png">
+<meta property="og:image" content="file:///C:/Users/lenovo/AppData/Local/Temp/msohtmlclip1/03/clip_image022.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526546900364.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526546927405.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526546959053.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526547049495.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526547094544.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526547108660.png">
+<meta property="og:updated_time" content="2018-05-17T12:20:44.614Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数字流域模型教程3——安装MPICH">
+<meta name="twitter:description" content="2017年10月24日更新！！！重要：假如mpiexec无法正常调用，出现“rejected”等情况，请查看本指导最后部分！ 2017年4月第一版注：本文参考自http://blog.csdn.net/baidu_33258926/article/details/51372904">
+<meta name="twitter:image" content="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/1526546395629.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/">
+
+
+
+
+
+  <title>数字流域模型教程3——安装MPICH | 张玍的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">张玍的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">发现生活中的美好</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/17/数字流域模型教程3——安装MPICH/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张玍">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张玍的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数字流域模型教程3——安装MPICH</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-17T16:35:53+08:00">
+                2018-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数字流域模型教程/" itemprop="url" rel="index">
+                    <span itemprop="name">数字流域模型教程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="2017年10月24日更新"><a href="#2017年10月24日更新" class="headerlink" title="2017年10月24日更新"></a>2017年10月24日更新</h1><p>！！！重要：假如<code>mpiexec</code>无法正常调用，出现“rejected”等情况，请查看本指导最后部分！</p>
+<h1 id="2017年4月第一版"><a href="#2017年4月第一版" class="headerlink" title="2017年4月第一版"></a>2017年4月第一版</h1><p>注：本文参考自<strong><a href="http://blog.csdn.net/baidu_33258926/article/details/51372904" target="_blank" rel="noopener">http://blog.csdn.net/baidu_33258926/article/details/51372904</a></strong></p>
+<p><a id="more"></a>MPI简要信息：MPI是一个跨语言的通讯协议，用于编写并行计算机。支持点对点和广播。MPI是一个信息传递应用程序接口，包括协议和和语义说明，他们指明其如何在各种实现中发挥其特性。MPI的目标是高性能，大规模性，和可移植性。MPI在今天仍为高性能计算的主要模型。（from：百度百科）</p>
+<p>在windows下安装配置MPI步骤不算多，但是有一些需要注意的小细节，也就是这些小细节，第一次安装同学可能会被这些细节所迷惑- -||| </p>
+<p>嘛废话不多说，开始介绍我在被虐一下午后总结出来的安装过程吧：</p>
+<h2 id="关于下载："><a href="#关于下载：" class="headerlink" title="关于下载："></a>关于下载：</h2><p>如果是从MPICH2的官网(<a href="http://www.mpich.org/)上下载，请**注意在`1.4.1p1`版本前才有windows版**，之后由于windows版开发人员欠缺导致没有windows版。另外，下载时也是直接下载msi文件。如1.4.1p1下载地址：http://www.mpich.org/static/downloads/1.4.1p1/" target="_blank" rel="noopener">http://www.mpich.org/)上下载，请**注意在`1.4.1p1`版本前才有windows版**，之后由于windows版开发人员欠缺导致没有windows版。另外，下载时也是直接下载msi文件。如1.4.1p1下载地址：http://www.mpich.org/static/downloads/1.4.1p1/</a></p>
+<h2 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h2><p>然后就是正常的安装过程，安装中会有一个步骤让你填写Phrase。当然默认什么都不改的话就是<code>behappy</code>，你可以设置为你自己的喜欢的内容，记住就好。</p>
+<p>另外，还有一项是选择用户，<strong>请选择every one</strong>。</p>
+<p>在下的安装时各项截图如下（版本：<code>mpich2-1.3-win-x86-64</code>）：</p>
+<p>先是欢迎界面，直接next</p>
+<p><img src="/2018/05/17/数字流域模型教程3——安装MPICH/1526546395629.png" alt="欢迎信息"></p>
+<p>一些information，没什么好看的，next</p>
+<p><img src="/2018/05/17/数字流域模型教程3——安装MPICH/1526546424744.png" alt="Information"></p>
+<p>各种协议，一般都是看都不看I agree</p>
+<p><img src="/2018/05/17/数字流域模型教程3——安装MPICH/1526546459876.png" alt="License Agreement"></p>
+<p>这个<code>Passphrase</code>默认选择<code>behappy</code>就好了，否则你以后可能不会happy</p>
+<p><img src="/2018/05/17/数字流域模型教程3——安装MPICH/1526546489840.png" alt="Passphrase选择behappy"></p>
+<p>关键性的一步。<em>注意将用户改成Everyone</em>，另外请务必用默认文件夹，因为模型中的lib都是用的这个地址。</p>
+<p><img src="/2018/05/17/数字流域模型教程3——安装MPICH/1526546531075.png" alt="用户选择Everyone"></p>
+<p>之后就是一路next了。</p>
+<h2 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h2><p>首先将<code>C:\Program Files\MPICH2\bin</code>目录需要添加到系统的<code>path</code>变量下，右键此电脑，属性，高级系统设置，环境变量，找到path项将bin目录路径添加到变量中。然后到<a href="">C:\ProgramFiles\MPICH2\bin</a>底下找到下面这个东西（如果刚才你没有改变默认地址的话…）：<br><img src="/2018/05/17/数字流域模型教程3——安装MPICH/1526546603952.png" alt="wmpiregister"></p>
+<p>   点击打开之后输入你当前电脑<em>有效的本地管理员账户</em>名称和密码，为什么说是本地，win10中你可以用你的hotmail账户登录系统，这个不是本地账户，win10下你必须要切换至本地账户登录，才能成功配置MPI，而且配置完不能再切回在线登陆，否则会失效<br>    输入完成之后点击register，ok退出</p>
+<p>接下来是最重要的一步，很多同学也就是卡在这里：<br>    以管理员身份运行cmd，注意是<em>管理员身份</em>，否则会报错，诸君可以自己试试- -<br>    输入 smpd –install -phrase [你的关键字，默认是behappy]，之后会提示服务已注册，这一步实际是启用MPI服务，不启用的话你的MPI装上但是无法使用<br>（提示没有这个命令的童鞋检查你环境变量是否添加正确）    </p>
+<p>另外补充一句，有可能防火墙没有对smpd和mpiexec命令打开，可以到控制面板\系统和安全\Windows 防火墙，然后</p>
+<p><img src="/2018/05/17/数字流域模型教程3——安装MPICH/1526546683594.png" alt="控制面板\系统和安全\防火墙"></p>
+<p>然后勾选让<code>smpd</code>和~能使用专用网络(咦，我怎么有两个mpiexec，你呢？)</p>
+<p><img src="/2018/05/17/数字流域模型教程3——安装MPICH/1526546721789.png" alt="勾选"></p>
+<p>验证安装：</p>
+<p>怎么才能知道你安装成没成功呢，方法很多： </p>
+<ol>
+<li>​</li>
+</ol>
+<p>​    同样在bin目录下找到<code>wmpiconfig.exe</code>打开，点击gethost，再点击scan for version,这时候会出现你安装的MPI版本，这就说明MPI服务能够正常的和你的系统通信，你的安装是成功的，否则。。你没装对回去再看看吧- -<br>    <img src="/2018/05/17/数字流域模型教程3——安装MPICH/1526546748462.png" alt="1526546748462"></p>
+<ol>
+<li>​</li>
+</ol>
+<p>打开bin目录下的<code>wmpiexec.exe</code>,进程数一下，浏览到安装目录下的example下的cpi.exe这是自带的关于PI值计算的并行小程序，勾上run in a seprate window(在独立窗口中运行)，点击execute,看程序能否正常运行：</p>
+<p> <img src="/2018/05/17/数字流域模型教程3——安装MPICH/1526546825988.png" alt=""></p>
+<p>到此安装完成，需要使用ide编写MPI代码的话需要将lib文件夹里的.lib内容拷贝到你ide安装目录下的lib文件夹内，include文件夹内.h内容拷贝到ide安装目录下的include文件夹下</p>
+<p> <img src="/2018/05/17/数字流域模型教程3——安装MPICH/1526546844431.png" alt=""></p>
+<h1 id="2017年10月24日含泪更新"><a href="#2017年10月24日含泪更新" class="headerlink" title="2017年10月24日含泪更新"></a>2017年10月24日含泪更新</h1><p>从六月份初步跑了算例，然后出国交流，再回来，已经小半年没有接触这个了。傅老师要求要熟悉下模型，于是就继续看了下操作教程，然后点击MPI文件夹下的<code>MPI_ConsoleRun.bat</code>，但是打开后居然出现以下信息：</p>
+<p><img src="file:///C:/Users/lenovo/AppData/Local/Temp/msohtmlclip1/03/clip_image022.jpg" alt="img"></p>
+<p>我以为输入oracle的用户名及密码，于是输入C##CHABAGOU, 回车，然后要输password，结果黑框就没了。后来各种卸载重装MPICH，最后各种google终于发现不是它的锅，而是Intel的问题。因为我安装Intel parallel后，里面自带mpiexec，于是覆盖了MPICH底下的。</p>
+<p>先测试下mpiexec是不是被Intel覆盖了：</p>
+<p>打开cmd，输入mpiexec回车，然后出现这样的信息：</p>
+<p><img src="/2018/05/17/数字流域模型教程3——安装MPICH/1526546900364.png" alt=""></p>
+<p>确实覆盖了。</p>
+<p>关于更改：打开控制面板\系统和安全\系统，进入环境变量设置，注意打开<em>系统变量</em>，查看PATH底下的路径：</p>
+<p><img src="/2018/05/17/数字流域模型教程3——安装MPICH/1526546927405.png" alt=""></p>
+<p>果然Intel家的都排在MPICH2前面，只要移动MPICH2到前面就好。但是为防我另外一个用到Intel parallel的软件用不了，我还是将MPICH2的mpiexec改名为mpiexec2，这样相应地改下MPI文件夹底下的MPI_ConsoleRun.bat文件中的内容就好。然后就能跑了。</p>
+<p>此时也可以先测试下有没有用：cmd输入<code>mpiexec2</code>：</p>
+<p><img src="/2018/05/17/数字流域模型教程3——安装MPICH/1526546959053.png" alt=""></p>
+<p>的确不同，终于成功了。</p>
+<h1 id="2018年5月17日更新——Winserver安装问题"><a href="#2018年5月17日更新——Winserver安装问题" class="headerlink" title="2018年5月17日更新——Winserver安装问题"></a>2018年5月17日更新——Winserver安装问题</h1><p>上面步骤在Win 7/8/10应该都能成功，但是再Winserver出现下面的问题：</p>
+<p><img src="/2018/05/17/数字流域模型教程3——安装MPICH/1526547049495.png" alt=""></p>
+<p>需要联网下载.Net Framework，但是服务器根本没联网权限啊！</p>
+<p>搜索一番发现Win Server需要通过服务器管理安装.Net Framework，比如：</p>
+<p><a href="https://jingyan.baidu.com/article/14bd256e26b714bb6d26128a.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/14bd256e26b714bb6d26128a.html</a></p>
+<p>但是安装时出现如下错误：</p>
+<p><img src="/2018/05/17/数字流域模型教程3——安装MPICH/1526547094544.png" alt=""></p>
+<p><img src="/2018/05/17/数字流域模型教程3——安装MPICH/1526547108660.png" alt=""></p>
+<p>解决方案：</p>
+<p><a href="https://blog.csdn.net/enweitech/article/details/51397180" target="_blank" rel="noopener">https://blog.csdn.net/enweitech/article/details/51397180</a></p>
+<p>原来应该指定源文件。有个小哥提供了：</p>
+<p><a href="https://download.csdn.net/download/dybh19911113/10169948" target="_blank" rel="noopener">https://download.csdn.net/download/dybh19911113/10169948</a></p>
+<p>没钱只好用ed2k下载原本ISO镜像：</p>
+<p>ed2k://|file|cn_windows_server_2012_r2_x64_dvd_2707961.iso|4413020160|010CD94AD1F2951567646C99580DD595|/</p>
+<p>可以百度盘离线VPS的BaiduPCS-Go下载Seafile上传本地Seafile下载…</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/dyrim/" rel="tag"># dyrim</a>
+          
+            <a href="/tags/mpich/" rel="tag"># mpich</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/17/数字流域模型教程2——使用sqlplus和sql-developer/" rel="next" title="数字流域模型教程2——使用sqlplus和sql developer">
+                <i class="fa fa-chevron-left"></i> 数字流域模型教程2——使用sqlplus和sql developer
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/17/数字流域模型教程4——岔巴沟小算例：编译及并行计算-1/" rel="prev" title="数字流域模型教程4——岔巴沟小算例：编译及并行计算">
+                数字流域模型教程4——岔巴沟小算例：编译及并行计算 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">张玍</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2017年10月24日更新"><span class="nav-number">1.</span> <span class="nav-text">2017年10月24日更新</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2017年4月第一版"><span class="nav-number">2.</span> <span class="nav-text">2017年4月第一版</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于下载："><span class="nav-number">2.1.</span> <span class="nav-text">关于下载：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装过程"><span class="nav-number">2.2.</span> <span class="nav-text">安装过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置过程"><span class="nav-number">2.3.</span> <span class="nav-text">配置过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2017年10月24日含泪更新"><span class="nav-number">3.</span> <span class="nav-text">2017年10月24日含泪更新</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2018年5月17日更新——Winserver安装问题"><span class="nav-number">4.</span> <span class="nav-text">2018年5月17日更新——Winserver安装问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张玍</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ANN,MATLAB,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="[TOC]">
+<meta name="keywords" content="ANN,MATLAB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Short Course on neural networks (Tsinghua)">
+<meta property="og:url" content="http://yoursite.com/2019/01/16/Short-Course-on-neural-networks-Tsinghua/index.html">
+<meta property="og:site_name" content="张玍的博客">
+<meta property="og:description" content="[TOC]">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/01/16/Short-Course-on-neural-networks-Tsinghua/1547625548015.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/16/Short-Course-on-neural-networks-Tsinghua/1547625647685.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/16/Short-Course-on-neural-networks-Tsinghua/1547625676222.png">
+<meta property="og:updated_time" content="2019-01-21T11:56:39.821Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Short Course on neural networks (Tsinghua)">
+<meta name="twitter:description" content="[TOC]">
+<meta name="twitter:image" content="http://yoursite.com/2019/01/16/Short-Course-on-neural-networks-Tsinghua/1547625548015.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/16/Short-Course-on-neural-networks-Tsinghua/">
+
+
+
+
+
+  <title>Short Course on neural networks (Tsinghua) | 张玍的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">张玍的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">发现生活中的美好</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/16/Short-Course-on-neural-networks-Tsinghua/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张玍">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张玍的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Short Course on neural networks (Tsinghua)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-16T17:10:13+08:00">
+                2019-01-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[TOC]<br><a id="more"></a></p>
+<h2 id="OpenTA"><a href="#OpenTA" class="headerlink" title="OpenTA"></a>OpenTA</h2><h3 id="Quiz"><a href="#Quiz" class="headerlink" title="Quiz"></a>Quiz</h3><h4 id="Analysis-Taylor-expansion"><a href="#Analysis-Taylor-expansion" class="headerlink" title="Analysis: Taylor expansion"></a>Analysis: Taylor expansion</h4><p>The Taylor expansion of an analytic function around $x_0$ is given by $f ( x ) = \sum _ { n = 0 } ^ { \infty } \frac { 1 } { n ! } f ^ { ( n ) } \left( x _ { 0 } \right) \left( x - x _ { 0 } \right) ^ { n }$, where $f ^ { ( n ) } \left( x _ { 0 } \right)$ denotes the $n ^ { t h }$ derivative of $f$ at $x_0$.</p>
+<ul>
+<li><p>Taylor-expand the function $f(x)=(1-x)^{-m}$ up to second order ($n=2$) around $x_0=0$, where $m \in \,\mathbb{R}$ is:</p>
+<p>$1 + m \cdot x + \frac { m \cdot ( m + 1 ) } { 2 } \cdot x ^ { 2 }$</p>
+</li>
+<li><p><img src="/2019/01/16/Short-Course-on-neural-networks-Tsinghua/1547625548015.png" alt="">$1 - m \cdot x + \frac { m ^ { 2 } } { 2 } \cdot x ^ { 2 }$</p>
+</li>
+<li><p><img src="/2019/01/16/Short-Course-on-neural-networks-Tsinghua/1547625647685.png" alt=""></p>
+<p>$x - 1 - \frac { 1 } { 2 } \cdot ( x - 1 ) ^ { 2 }$</p>
+</li>
+<li><p><img src="/2019/01/16/Short-Course-on-neural-networks-Tsinghua/1547625676222.png" alt="1547625676222"></p>
+<p>0</p>
+<p>Ref:<a href="https://math.stackexchange.com/questions/1246136/maclaurin-series-expansion-for-e-1-x2" target="_blank" rel="noopener">https://math.stackexchange.com/questions/1246136/maclaurin-series-expansion-for-e-1-x2</a></p>
+</li>
+</ul>
+<h4 id="Linear-Algebra"><a href="#Linear-Algebra" class="headerlink" title="Linear Algebra"></a>Linear Algebra</h4><ul>
+<li>Matrix determinant:</li>
+</ul>
+<script type="math/tex; mode=display">
+A = \left[ \begin{array} { c c } { 0 } & { i } \\ { - i } & { 0 } \end{array} \right]</script><p>$det(A)=-1$ (note: $i^2=-1$)</p>
+<ul>
+<li>Matrix exponential</li>
+</ul>
+<p>$e^{i\theta A}=$</p>
+<script type="math/tex; mode=display">
+\left[ \begin{array} { c c } { \cos ( \theta ) } & { - \sin ( \theta ) } \\ { \sin ( \theta ) } & { \cos ( \theta ) } \end{array} \right]</script><p>Solution: <a href="https://math.stackexchange.com/questions/773359/eulers-identity-in-matrix-form" target="_blank" rel="noopener">https://math.stackexchange.com/questions/773359/eulers-identity-in-matrix-form</a></p>
+<script type="math/tex; mode=display">
+e ^ { \mathbb { I } \theta } =R ( \theta ) = \left( \begin{array} { c c } { \cos \theta } & { - \sin \theta } \\ { \sin \theta } & { \cos \theta } \end{array} \right) (\mathbb { I } = \left( \begin{array} { c c } { 0 } & { - 1 } \\ { 1 } & { 0 } \end{array} \right))</script><h3 id="Homework"><a href="#Homework" class="headerlink" title="Homework"></a>Homework</h3><h4 id="3D-Boolean-functions"><a href="#3D-Boolean-functions" class="headerlink" title="3D Boolean functions"></a>3D Boolean functions</h4><p>In <a href="https://en.wikipedia.org/wiki/Mathematics" target="_blank" rel="noopener">mathematics</a> and <a href="https://en.wikipedia.org/wiki/Logic" target="_blank" rel="noopener">logic</a>, a <strong>(finitary) Boolean function</strong> (or switching function) is a <a href="https://en.wikipedia.org/wiki/Function_(mathematics" target="_blank" rel="noopener">function</a>) of the form $f: \mathbf{B}^k\rightarrow \mathbf{B}​$, where B= {0, 1} is a <em>Boolean domain</em> and <em>k</em> is a non-negative integer called the <a href="https://en.wikipedia.org/wiki/Arity" target="_blank" rel="noopener">arity</a> of the function. In the case where <em>k</em> = 0, the “function” is essentially a constant element of <strong>B</strong>.</p>
+<ul>
+<li>How many 3-dimensional Boolean functions are there? </li>
+</ul>
+<p>For $k$ dimensional inputs, there are $2^{ 2^ k }$ Boolean functions. The number of inputs are $2^k$, for each input, the output can be 0/1.</p>
+<ul>
+<li>Count the number of symmetries of 3-dimensional Boolean functions that map 4 of the possible input patterns to 1.</li>
+</ul>
+<p>Symmetry: can be mapped to each other by rotation and/or reflection.</p>
+<p>How many linearly separable 3-dimensional Boolean functions are there? </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ANN/" rel="tag"># ANN</a>
+          
+            <a href="/tags/MATLAB/" rel="tag"># MATLAB</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/30/人人尽说抽象话/" rel="next" title="人人尽说抽象话">
+                <i class="fa fa-chevron-left"></i> 人人尽说抽象话
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">张玍</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenTA"><span class="nav-number">1.</span> <span class="nav-text">OpenTA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Quiz"><span class="nav-number">1.1.</span> <span class="nav-text">Quiz</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Analysis-Taylor-expansion"><span class="nav-number">1.1.1.</span> <span class="nav-text">Analysis: Taylor expansion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linear-Algebra"><span class="nav-number">1.1.2.</span> <span class="nav-text">Linear Algebra</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Homework"><span class="nav-number">1.2.</span> <span class="nav-text">Homework</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3D-Boolean-functions"><span class="nav-number">1.2.1.</span> <span class="nav-text">3D Boolean functions</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张玍</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

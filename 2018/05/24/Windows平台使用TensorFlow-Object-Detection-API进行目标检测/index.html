@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python,AI,Tensorflow,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1.  TensorFlow及Object DetectionAPI简介Tensorflow (https://www.tensorflow.org/) is an opensource software library for high performance numerical computation.">
+<meta name="keywords" content="Python,AI,Tensorflow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows平台使用TensorFlow Object Detection API进行目标检测">
+<meta property="og:url" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/index.html">
+<meta property="og:site_name" content="张玍的博客">
+<meta property="og:description" content="1.  TensorFlow及Object DetectionAPI简介Tensorflow (https://www.tensorflow.org/) is an opensource software library for high performance numerical computation.">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172457127.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172502197.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172531412.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172731142.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172764774.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172825142.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172841316.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172866053.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172897303.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172908688.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172919677.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172939989.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172952636.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527173006483.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527173221756.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527173240429.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527173258471.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527173287286.png">
+<meta property="og:updated_time" content="2018-05-31T10:01:46.021Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Windows平台使用TensorFlow Object Detection API进行目标检测">
+<meta name="twitter:description" content="1.  TensorFlow及Object DetectionAPI简介Tensorflow (https://www.tensorflow.org/) is an opensource software library for high performance numerical computation.">
+<meta name="twitter:image" content="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172457127.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/">
+
+
+
+
+
+  <title>Windows平台使用TensorFlow Object Detection API进行目标检测 | 张玍的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">张玍的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">发现生活中的美好</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张玍">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张玍的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Windows平台使用TensorFlow Object Detection API进行目标检测</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-24T22:31:53+08:00">
+                2018-05-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1-TensorFlow及Object-DetectionAPI简介"><a href="#1-TensorFlow及Object-DetectionAPI简介" class="headerlink" title="1.  TensorFlow及Object DetectionAPI简介"></a>1.  TensorFlow及Object DetectionAPI简介</h2><p>Tensorflow (<a href="https://www.tensorflow.org/" target="_blank" rel="noopener">https://www.tensorflow.org/</a>) is an opensource software library for high performance numerical computation.<a id="more"></a> Itsflexible architecture allows easy deployment of computation across a variety ofplatforms (CPUs, GPUs, TPUs), and from desktops to clusters of servers tomobile and edge devices. Originally developed by researchers and engineers fromthe Google Brain team within Google’s AI organization, it comes with strongsupport for machine learning and deep learning and the flexible numericalcomputation core is used across many other scientific domains.</p>
+<p>TensorFlow是一个高性能数值计算的开源软件库。它灵活的结构能让计算简单部署在各种平台（CPU, GPU, TPU），从桌面到服务器集群到移动端再到边装置。它最初被谷歌AI组织中的谷歌大脑的研究人员和工程师开发。</p>
+<p><a href="（https:/github.com/tensorflow/models/tree/master/research/object_detection">ObjectDetection</a>基于TensorFlow实现的一个API。Creating accurate machine learning models capable of localizing andidentifying multiple objects in a single image remains a core challenge incomputer vision. The TensorFlow Object Detection API is an open sourceframework built on top of TensorFlow that makes it easy to construct, train anddeploy object detection models.</p>
+<h2 id="2-平台准备：Windows-10从零搭建TensorFlow-Object-Detection平台"><a href="#2-平台准备：Windows-10从零搭建TensorFlow-Object-Detection平台" class="headerlink" title="2.  平台准备：Windows 10从零搭建TensorFlow Object Detection平台"></a>2.  平台准备：Windows 10从零搭建TensorFlow Object Detection平台</h2><h3 id="2-1-安装Anaconda"><a href="#2-1-安装Anaconda" class="headerlink" title="2.1 安装Anaconda"></a>2.1 安装Anaconda</h3><p>Anaconda是一个开源的Python发行版本，其包含了<em>conda</em>、Python等180多个科学包及其依赖项。从<a href="https://www.anaconda.com/download/" target="_blank" rel="noopener">这里</a>可以下载其最新发行版。由于TensorFlow平台问题，必须选择Python3.6版本64位安装包。</p>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172457127.png" alt=""></p>
+<p>安装时需要注意几点：</p>
+<ul>
+<li>安装地址的不要有中文名！也不要有空格（如果想用空格最好下划线替代）。</li>
+<li>安装时需要勾选add to path</li>
+</ul>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172502197.png" alt=""></p>
+<ul>
+<li>安装完后会让你安装visual studio code。这是一个很不错的代码编辑器。如果你的计算机上没有合适的，推荐安装（虽然我更喜欢sublime）。</li>
+</ul>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172531412.png" alt=""></p>
+<h3 id="2-2-安装TensorFlow"><a href="#2-2-安装TensorFlow" class="headerlink" title="2.2       安装TensorFlow"></a>2.2       安装TensorFlow</h3><p>如果电脑只有 CPU，那么只能安装普通版的TensorFlow。如果是有GPU的壕，请看2.3。安装方式很简单，在cmd中输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install tensorflow</span><br></pre></td></tr></table></figure>
+<p>安装完后在cmd中进入Python环境，然后输入：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br></pre></td></tr></table></figure>
+<p>如果导入成功，说明安装成功。</p>
+<h3 id="2-3-安装TensorFlow-gpu"><a href="#2-3-安装TensorFlow-gpu" class="headerlink" title="2.3       安装TensorFlow-gpu"></a>2.3       安装TensorFlow-gpu</h3><p>由于我并不是壕，这方面没有进行实践。请自行百度之。另外从最终效果来看，使用GPU要比CPU快几倍。而使用训练一个简单的物体检测模型约1天多就能训1万步（平均约10 s/step），达到一个不算太坏的效果。因此并不是非用GPU不可（确实不是因为没钱）。</p>
+<h3 id="2-4-安装OpenCV（供实时检测用）"><a href="#2-4-安装OpenCV（供实时检测用）" class="headerlink" title="2.4       安装OpenCV（供实时检测用）"></a>2.4       安装OpenCV（供实时检测用）</h3><p>OpenCV可以调用摄像头获取实时拍摄数据，完成动态检测。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install -cconda-forge opencv</span><br></pre></td></tr></table></figure>
+<h3 id="2-5-下载Tensorflow-Model"><a href="#2-5-下载Tensorflow-Model" class="headerlink" title="2.5       下载Tensorflow Model"></a>2.5       下载Tensorflow Model</h3><p>如果你有Gitbash，可以直接在bash中输入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/tensorflow/models.git</span><br></pre></td></tr></table></figure></p>
+<p>如果没有，也可以手动下载：<a href="https://github.com/tensorflow/models/archive/master.zip" target="_blank" rel="noopener">https://github.com/tensorflow/models/archive/master.zip</a></p>
+<p>请注意，保存地址也不要有中文名！下载完后解压即可（需要解压一段时间…）。</p>
+<p>解压后该文件夹底下有official，research，samples等3个文件夹，我们主要用到research文件夹底下的object_detection文件夹。</p>
+<h3 id="2-6-安装测试TensorFlow-Object-Detection"><a href="#2-6-安装测试TensorFlow-Object-Detection" class="headerlink" title="2.6       安装测试TensorFlow Object Detection"></a>2.6       安装测试TensorFlow Object Detection</h3><p>本部分参考<a href="https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/installation.md" target="_blank" rel="noopener">官方安装指导</a>。由于官方指导针对Linux，我把它Windows化。</p>
+<h4 id="2-6-1-Protobuf-Compilation"><a href="#2-6-1-Protobuf-Compilation" class="headerlink" title="2.6.1  Protobuf Compilation"></a>2.6.1  Protobuf Compilation</h4><p>TensorFlow如果安装成功了，接下来就要进行<a href="">Protobuf Compilation</a>。官方的代码是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">\<span class="comment"># From tensorflow/models/research/</span></span><br><span class="line"></span><br><span class="line">protocobject_detection/protos/*.proto--python_out=.</span><br></pre></td></tr></table></figure>
+<p>但这在Windows下并不能成功运行。主要有两个问题：</p>
+<p>一是protoc非系统命令。我们需要手动从<a href="https://github.com/google/protobuf/releases" target="_blank" rel="noopener">这里</a>下载Windows版的protoc，解压后将bin文件夹底下的protoc.exe复制到xxx/Anaconda3/Library/bin（本地址前面部分为Anaconda的安装地址，如果不记得可以在环境变量的PATH中查看——因为我们之前已经把它们add to path了）。这时再在cmd中输入<code>protoc</code>，会出现下面的信息：</p>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172731142.png" alt=""></p>
+<p>二是这是Linux下的命令。其实这个命令是运用<code>protoc</code>工具处理object_detection/protos文件夹底下全部的后缀为.proto文件，后面的<code>--python_out=</code>是一个选项。巧办法是将bash命令改成dos的bat命令——但我不会。笨办法是手动一个一个将*号替换为文件名。我是之前已经安装了Gitbash，所以能运行部分Linux命令。从<a href="https://git-scm.com/download/win下载git的桌面版，安装时一切按照默认的来就好，不用管什么意思。安装完后再tensorflow/models/research右击，点击Gitbash" target="_blank" rel="noopener">https://git-scm.com/download/win下载git的桌面版，安装时一切按照默认的来就好，不用管什么意思。安装完后再tensorflow/models/research右击，点击Gitbash</a> Here，输入上面的命令（如果想粘贴的话用shift+insert），这时就能运行成功了！（如果再查看protos文件夹，会发现底下的每个.proto文件都有一个对应的.py文件，如下图所示）。</p>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172764774.png" alt=""></p>
+<h4 id="2-6-2-Add-Libraries-to-PYTHONPATH"><a href="#2-6-2-Add-Libraries-to-PYTHONPATH" class="headerlink" title="2.6.2  Add Libraries to PYTHONPATH"></a>2.6.2  Add Libraries to PYTHONPATH</h4><p>将xxx/research和xxx/research/slim添加到环境变量中（我用的系统变量），名字叫<code>PYTHONPATH</code>。</p>
+<p>如果你不会添加环境变量，我简单示意下。如果会，请略过此段。打开文件夹，在地址栏输入control，进入控制面板，然后进入系统和安全，再进入系统。点击高级系统设置：</p>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172825142.png" alt=""></p>
+<p>出现下面的界面：</p>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172841316.png" alt=""></p>
+<p>选择系统变量下的新建，变量名<code>PYTHONPATH</code>，变量值包括research地址和research下的slim文件夹的地址。<em>注意两个地址中间要用英文的分号隔开</em>！</p>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172866053.png" alt=""></p>
+<p>完事后一路确定即可。一般添加环境变量都是上面的套路。</p>
+<h4 id="2-6-3-测试Object-Detection"><a href="#2-6-3-测试Object-Detection" class="headerlink" title="2.6.3 测试Object Detection"></a>2.6.3 测试Object Detection</h4><p>在/research/object_dection文件夹下，按下shift同时右击空白处，点击“在此处打开Powershell窗口”，输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jupyter notebook</span><br></pre></td></tr></table></figure>
+<p>然后会打开一个web页面：</p>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172897303.png" alt=""></p>
+<p>这就是Jupyter notebook。它是一个交互式的编程环境，打开object_detection_tutorial.ipynb。</p>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172908688.png" alt=""></p>
+<p>从一个代码框开始，点击该框，再点击工具栏的Run，即可运行该栏代码。运行到下面两步会下载一个冻结模型（大概100多M）：</p>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172919677.png" alt=""></p>
+<p>冻结模型是一个已经训练好的可以检测50多种物体的模型参数集。最后几步是用该模型检测给出的两张样图。如果能够顺利检测，说明Object Detection API安装配置成功。</p>
+<h2 id="3-训练准备"><a href="#3-训练准备" class="headerlink" title="3    训练准备"></a>3    训练准备</h2><p>本部分参照<a href="https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/running_locally.md" target="_blank" rel="noopener">https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/running_locally.md</a>。该指导部分内容针对Linux，后文对于Windows系统有所改进。</p>
+<h3 id="3-1-图片收集"><a href="#3-1-图片收集" class="headerlink" title="3.1       图片收集"></a>3.1       图片收集</h3><p>依据自己的目标，收集相应的图片。比如需要检测多种鱼，则需要收集包含这些种类的鱼的图片。如果只需要检测某种鱼，那么只需要该鱼的图片。图片数目最少100张，一般300~500张。</p>
+<h3 id="3-2-图片标注"><a href="#3-2-图片标注" class="headerlink" title="3.2       图片标注"></a>3.2       图片标注</h3><p>采用<a href="https://github.com/tzutalin/labelImg" target="_blank" rel="noopener">lableImg</a>工具进行标注。LabelImg is a graphical image annotation tool and label objectbounding boxes in images。该工具可以从<a href="https://tzutalin.github.io/labelImg/" target="_blank" rel="noopener">这里</a>下载，windows版下载的是zip文件，解压后有一个lableImg.exe，打开即可运行。这里仍然要注意的是不要解压到有中文名或空格的地址！打开图片后右击有create rectangle选项。框出目标，输入名字“fish”（请注意这个名字，它需要与后面的类名统一！）</p>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172939989.png" alt=""></p>
+<p>可以open dir，对一个文件夹底下的所有图片连续标注，最后保存。保存后，在图片的同一文件夹底下出现一个xml文件。该文件举例如下：</p>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527172952636.png" alt="1527172952636"></p>
+<p>包含了文件名、地址、图片大小、类名、框的位置等等信息。</p>
+<h3 id="3-3-生产TFRecords文件"><a href="#3-3-生产TFRecords文件" class="headerlink" title="3.3       生产TFRecords文件"></a>3.3       生产TFRecords文件</h3><p>TensorFlow默认的数据格式是TFRecords，理论上可以存储任何格式的数据。这里我们用它存储图片和框的位置信息等。</p>
+<p>首先结合之前已有的文件，改变文件目录的格式：</p>
+<p>├─data</p>
+<p>├─images</p>
+<p>│  ├─test (include test images, test xmls)</p>
+<p>│  └─train (include train images, train xmls)</p>
+<p>│  └─all the images</p>
+<p>└─generate_tfrecord.py</p>
+<p>└─<a href="">xml_to_csv.py</a></p>
+<p>把Image分为train和test，比例约9:1即可。将图片和对应的xml文件分别放入两个文件夹。请注意所有图片还要在images底下直接保存一份。然后新建data文件夹</p>
+<p>运行xml_to_csv.py（运行方式可以是cmd，然后输入python，再把脚本拖到命令行）。但如果你安装了编辑器或者编译器，这将方便很多。可以安装sublime然后搜索sublime如何运行Python脚本。运行完后在data中生成两个csv文件，分别是train和test图片的标注信息。</p>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527173006483.png" alt=""></p>
+<p>运行generate_tfrecord.py，在cmd中分别输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python generate_tfrecord.py--csv_input=data/train_labels.csv --output_path=train.record</span><br><span class="line"></span><br><span class="line">python generate_tfrecord.py --csv_input=data/test_labels.csv  --output_path=test.record</span><br></pre></td></tr></table></figure>
+<p>可以分别创建train和test的TFRecords文件。</p>
+<p>相关文件和代码我已经上传至github，可以通过<a href="https://github.com/THUzhangga/tfrecord" target="_blank" rel="noopener">https://github.com/THUzhangga/tfrecord</a>下载。</p>
+<h3 id="3-4-建立训练的文件夹结构"><a href="#3-4-建立训练的文件夹结构" class="headerlink" title="3.4       建立训练的文件夹结构"></a>3.4       建立训练的文件夹结构</h3><p>官网上推荐的文件结构为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">+data</span><br><span class="line">  -label_map file</span><br><span class="line">  -train TFRecord file</span><br><span class="line">  -eval TFRecord file</span><br><span class="line">+models</span><br><span class="line"></span><br><span class="line">- model</span><br><span class="line">  -pipeline config file</span><br><span class="line">  +train</span><br><span class="line">  +eval</span><br></pre></td></tr></table></figure></p>
+<p>我们可以在object_detection底下建立fish文件夹，然后建立上述文件结构</p>
+<p>在data文件夹中需要labelmap file，文件内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">item &#123;</span><br><span class="line"></span><br><span class="line">  id: 1</span><br><span class="line"></span><br><span class="line">  name:&apos;fish&apos;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>保存为.pbtxt格式，文件名可以是<code>fish_label_map</code>。之前生成的train.records和test.records也需要拷贝到data底下。</p>
+<p>至于models，底下是model，再下是train文件夹、eval文件夹和配置文件（config file）。配置文件的配置依赖本步骤创建的文件结构，所以本步骤需要好好完成。Train文件夹中需要放入一些模型初始参数文件来加快最初的训练。这些文件我已经上传到github（<a href="https://github.com/THUzhangga/tfrecords/tree/master/model），下载models文件夹底下的全部文件即可。" target="_blank" rel="noopener">https://github.com/THUzhangga/tfrecords/tree/master/model），下载models文件夹底下的全部文件即可。</a></p>
+<h3 id="3-5-配置训练用-config文件"><a href="#3-5-配置训练用-config文件" class="headerlink" title="3.5       配置训练用.config文件"></a>3.5       配置训练用.config文件</h3><p>本部分参照<a href="https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/configuring_jobs.md" target="_blank" rel="noopener">https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/configuring_jobs.md</a></p>
+<p>我们的目标检测用的架构为SSD。SSD是一个基于深度学习的目标检测算法。深度学习可以认为是含有多个隐层的神经网络，而神经网络就是模拟生物神经网络的数学模型。关于SSD可以查看<a href="https://link.springer.com/chapter/10.1007%2F978-3-319-46448-0_2" target="_blank" rel="noopener">https://link.springer.com/chapter/10.1007%2F978-3-319-46448-0_2</a>。</p>
+<p>在object_detection/samples/configs中有多个SSD的配置文件，我们可以选取ssd_mobilenet_v1_coco.config。将该文件复制到上面的model文件夹底下，并改名为pipeline.config。</p>
+<p>该文件非注释部分有5个<code>PATH_TO_BE_CONFIGURED</code>，还有其他一些需要改动（<code>num_classes</code>，<code>num_examples</code>）。此部分比较重要，直接将配置文件复制在下面，高亮处为必须根据具体情况改动处。<strong>注意，如果要输入文件地址，上下级之间用/而不要用\，因为\在Python中可能引起转义！</strong></p>
+<h2 id="4-训练"><a href="#4-训练" class="headerlink" title="4.  训练"></a>4.  训练</h2><p>经过了前面的千难万险，开启训练已经变得很简单了，但是训练过程反而是耗时最长的。</p>
+<p>在object_detection路径输入如下命令（xxx为你之前创建的文件结构的父地址）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python train.py --logtostderr--pipeline_config_path=xxx/models/model/pipeline.config --train_dir=xxx/models/train</span><br><span class="line"></span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<p>训练目标：loss降到1以下；中途可以中断，重新运行命令会在之前的基础上继续训练；</p>
+<p>训练完成后，可以在object_detection路径下执行下面的命令查看训练情况</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensorboard --logdir=xxx/models</span><br></pre></td></tr></table></figure>
+<p>会显示如下信息：</p>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527173221756.png" alt=""></p>
+<p>在浏览器中输入：<a href="http://xxx:6006" target="_blank" rel="noopener">http://xxx:6006</a> （xxx内容根据个人电脑有差异，在命令行中会显示 ）就可以看到训练的图标展示。</p>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527173240429.png" alt=""></p>
+<p>我们关注底下的totleloss一项，越接近1越好：</p>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527173258471.png" alt=""></p>
+<h2 id="5-导出"><a href="#5-导出" class="headerlink" title="5.  导出"></a>5.  导出</h2><p>在控制台object_detection路径下运行下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">python export_inference_graph.py \</span><br><span class="line"></span><br><span class="line">   --input_type image_tensor \</span><br><span class="line"></span><br><span class="line">   --pipeline_config_path PIPECONFIG PATH\</span><br><span class="line"></span><br><span class="line">   --trained_checkpoint_prefixtraining/model.ckpt-xxx\      </span><br><span class="line"></span><br><span class="line">--output_directory output_model</span><br></pre></td></tr></table></figure>
+<p><code>model.ckpt-xxx</code> 是训练结果文件（在models/train文件夹底下），需要根据训练结果修改</p>
+<p>导出后在你选择的output_model文件夹底下会生成类似下面的文件：</p>
+<p><img src="/2018/05/24/Windows平台使用TensorFlow-Object-Detection-API进行目标检测/1527173287286.png" alt=""></p>
+<p>.pb文件就是我们训练的最终结果，也就是冻结的模型参数了！接下来就可以仿照之前测试Object Detection的方法，用它去检测新图片了！</p>
+<h2 id="6-检测"><a href="#6-检测" class="headerlink" title="6.  检测"></a>6.  检测</h2><p>参照脚本<a href="https://github.com/THUzhangga/tfrecords/blob/master/detect.py" target="_blank" rel="noopener">https://github.com/THUzhangga/tfrecords/blob/master/detect.py</a></p>
+<p>注意要在research/object_detection文件夹下运行</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/AI/" rel="tag"># AI</a>
+          
+            <a href="/tags/Tensorflow/" rel="tag"># Tensorflow</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/24/Arcgis提取河道纵剖面/" rel="next" title="Arcgis提取河道纵剖面">
+                <i class="fa fa-chevron-left"></i> Arcgis提取河道纵剖面
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/08/Tensorflow-for-Kaggle-Digit-Recognizer/" rel="prev" title="Tensorflow for Kaggle Digit Recognizer">
+                Tensorflow for Kaggle Digit Recognizer <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">张玍</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-TensorFlow及Object-DetectionAPI简介"><span class="nav-number">1.</span> <span class="nav-text">1.  TensorFlow及Object DetectionAPI简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-平台准备：Windows-10从零搭建TensorFlow-Object-Detection平台"><span class="nav-number">2.</span> <span class="nav-text">2.  平台准备：Windows 10从零搭建TensorFlow Object Detection平台</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-安装Anaconda"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 安装Anaconda</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-安装TensorFlow"><span class="nav-number">2.2.</span> <span class="nav-text">2.2       安装TensorFlow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-安装TensorFlow-gpu"><span class="nav-number">2.3.</span> <span class="nav-text">2.3       安装TensorFlow-gpu</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-安装OpenCV（供实时检测用）"><span class="nav-number">2.4.</span> <span class="nav-text">2.4       安装OpenCV（供实时检测用）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-下载Tensorflow-Model"><span class="nav-number">2.5.</span> <span class="nav-text">2.5       下载Tensorflow Model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-安装测试TensorFlow-Object-Detection"><span class="nav-number">2.6.</span> <span class="nav-text">2.6       安装测试TensorFlow Object Detection</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-1-Protobuf-Compilation"><span class="nav-number">2.6.1.</span> <span class="nav-text">2.6.1  Protobuf Compilation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-2-Add-Libraries-to-PYTHONPATH"><span class="nav-number">2.6.2.</span> <span class="nav-text">2.6.2  Add Libraries to PYTHONPATH</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-3-测试Object-Detection"><span class="nav-number">2.6.3.</span> <span class="nav-text">2.6.3 测试Object Detection</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-训练准备"><span class="nav-number">3.</span> <span class="nav-text">3    训练准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-图片收集"><span class="nav-number">3.1.</span> <span class="nav-text">3.1       图片收集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-图片标注"><span class="nav-number">3.2.</span> <span class="nav-text">3.2       图片标注</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-生产TFRecords文件"><span class="nav-number">3.3.</span> <span class="nav-text">3.3       生产TFRecords文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-建立训练的文件夹结构"><span class="nav-number">3.4.</span> <span class="nav-text">3.4       建立训练的文件夹结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-配置训练用-config文件"><span class="nav-number">3.5.</span> <span class="nav-text">3.5       配置训练用.config文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-训练"><span class="nav-number">4.</span> <span class="nav-text">4.  训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-导出"><span class="nav-number">5.</span> <span class="nav-text">5.  导出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-检测"><span class="nav-number">6.</span> <span class="nav-text">6.  检测</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张玍</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
