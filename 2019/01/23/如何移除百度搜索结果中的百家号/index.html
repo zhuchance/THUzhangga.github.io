@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Baidu,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最近“搜索引擎百度已死”的文章在朋友圈刷屏，主要原因是用百度搜索关键词，前面几项基本都是百家号的结果。">
+<meta name="keywords" content="Baidu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何移除百度搜索结果中的百家号">
+<meta property="og:url" content="http://yoursite.com/2019/01/23/如何移除百度搜索结果中的百家号/index.html">
+<meta property="og:site_name" content="张玍的博客">
+<meta property="og:description" content="最近“搜索引擎百度已死”的文章在朋友圈刷屏，主要原因是用百度搜索关键词，前面几项基本都是百家号的结果。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/01/23/如何移除百度搜索结果中的百家号/1548234451559.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/23/如何移除百度搜索结果中的百家号/1548234825025.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/23/如何移除百度搜索结果中的百家号/1548235368287.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/23/如何移除百度搜索结果中的百家号/1548234966992.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/23/如何移除百度搜索结果中的百家号/1548235095544.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/23/如何移除百度搜索结果中的百家号/1548235163148.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/23/如何移除百度搜索结果中的百家号/1548235203897.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/23/如何移除百度搜索结果中的百家号/Snipaste_2019-01-23_14-58-53.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/01/23/如何移除百度搜索结果中的百家号/1548235435813.png">
+<meta property="og:updated_time" content="2019-01-23T09:24:35.988Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何移除百度搜索结果中的百家号">
+<meta name="twitter:description" content="最近“搜索引擎百度已死”的文章在朋友圈刷屏，主要原因是用百度搜索关键词，前面几项基本都是百家号的结果。">
+<meta name="twitter:image" content="http://yoursite.com/2019/01/23/如何移除百度搜索结果中的百家号/1548234451559.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/23/如何移除百度搜索结果中的百家号/">
+
+
+
+
+
+  <title>如何移除百度搜索结果中的百家号 | 张玍的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">张玍的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">发现生活中的美好</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/23/如何移除百度搜索结果中的百家号/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张玍">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张玍的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何移除百度搜索结果中的百家号</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-23T17:03:09+08:00">
+                2019-01-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近“搜索引擎百度已死”的文章在朋友圈刷屏，主要原因是用百度搜索关键词，前面几项基本都是百家号的结果。<a id="more"></a>比如：</p>
+<p><img src="/2019/01/23/如何移除百度搜索结果中的百家号/1548234451559.png" alt="搜索&#39;吴秀波&#39;，前几项都是百家号信息"></p>
+<p>虽然百度回应百家号占比不超过10%，但是这10%都排在前面啊摔！</p>
+<p>为了还原良好的搜索体验，我们只能通过一些脚本移除百度搜索结果中的百家号内容。</p>
+<p>如果你使用火狐（Firefox）或Chrome浏览器，你可以安装油猴插件。由于Chrome浏览器应用商店无法打开，下面介绍火狐浏览器如何安装油猴插件。</p>
+<ol>
+<li>在火狐主页按下”ctrl+shift+A”，或者在地址栏输入”about:addons“，在下面的红框中搜索“油猴”。</li>
+</ol>
+<p><img src="/2019/01/23/如何移除百度搜索结果中的百家号/1548234825025.png" alt="火狐附加组件管理界面"></p>
+<ol>
+<li><p>点进第一个搜索结果，进行安装。</p>
+<p><img src="/2019/01/23/如何移除百度搜索结果中的百家号/1548235368287.png" alt="Firefox扩展搜索结果"></p>
+</li>
+</ol>
+<p><img src="/2019/01/23/如何移除百度搜索结果中的百家号/1548234966992.png" alt="Firefox扩展中的油猴脚本"></p>
+<ol>
+<li>安装完后打开(<a href="https://greasyfork.org/zh-CN)，搜索“百家号”。" target="_blank" rel="noopener">https://greasyfork.org/zh-CN)，搜索“百家号”。</a></li>
+</ol>
+<p><img src="/2019/01/23/如何移除百度搜索结果中的百家号/1548235095544.png" alt="在Greasy Fork中搜索百家号"></p>
+<ol>
+<li>选择脚本安装（推荐第三个）</li>
+</ol>
+<p><img src="/2019/01/23/如何移除百度搜索结果中的百家号/1548235163148.png" alt="百家号脚本搜索结果"></p>
+<p><img src="/2019/01/23/如何移除百度搜索结果中的百家号/1548235203897.png" alt="安装&quot;移除百家号搜索结果&quot;脚本"></p>
+<p><img src="/2019/01/23/如何移除百度搜索结果中的百家号/Snipaste_2019-01-23_14-58-53.jpg" alt="安装&quot;移除百家号搜索结果&quot;脚本"></p>
+<p>安装完后再使用百度搜索试验下，果然被移除了！</p>
+<p><img src="/2019/01/23/如何移除百度搜索结果中的百家号/1548235435813.png" alt="百度搜索结果中的百家号被移除"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Baidu/" rel="tag"># Baidu</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/16/Short-Course-on-neural-networks-Tsinghua/" rel="next" title="Short Course on neural networks (Tsinghua)">
+                <i class="fa fa-chevron-left"></i> Short Course on neural networks (Tsinghua)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">张玍</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张玍</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

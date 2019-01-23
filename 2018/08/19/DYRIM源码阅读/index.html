@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="dyrim,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="DYRIM源码中包含以下工程：">
+<meta name="keywords" content="dyrim">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DYRIM源码阅读">
+<meta property="og:url" content="http://yoursite.com/2018/08/19/DYRIM源码阅读/index.html">
+<meta property="og:site_name" content="张玍的博客">
+<meta property="og:description" content="DYRIM源码中包含以下工程：">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/08/19/DYRIM源码阅读/1534679544501.png">
+<meta property="og:updated_time" content="2019-01-21T14:47:46.658Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DYRIM源码阅读">
+<meta name="twitter:description" content="DYRIM源码中包含以下工程：">
+<meta name="twitter:image" content="http://yoursite.com/2018/08/19/DYRIM源码阅读/1534679544501.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/19/DYRIM源码阅读/">
+
+
+
+
+
+  <title>DYRIM源码阅读 | 张玍的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">张玍的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">发现生活中的美好</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/19/DYRIM源码阅读/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张玍">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张玍的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">DYRIM源码阅读</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-19T19:51:29+08:00">
+                2018-08-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>DYRIM源码中包含以下工程：</p>
+<p><img src="/2018/08/19/DYRIM源码阅读/1534679544501.png" alt="1534679544501"></p>
+<a id="more"></a>
+<p>猜测其中<code>GlacialSnow</code>为产雪模型，<code>XAJ</code>为新安江模型，<code>WaterYield</code>为产水模型，那么<code>NewRouting</code>为河网提取模型。</p>
+<h1 id="NewRouting"><a href="#NewRouting" class="headerlink" title="NewRouting"></a><code>NewRouting</code></h1><p>头文件与源文件对应，包括：</p>
+<h2 id="CoorTrans"><a href="#CoorTrans" class="headerlink" title="CoorTrans"></a><code>CoorTrans</code></h2><p>为坐标转换程序，可以实现经纬度坐标和xy坐标相互转换，按下不表。</p>
+<h2 id="CpuUsageCount"><a href="#CpuUsageCount" class="headerlink" title="CpuUsageCount"></a><code>CpuUsageCount</code></h2><p>为计算Cpu使用情况程序，按下不表。</p>
+<h2 id="DataStruct"><a href="#DataStruct" class="headerlink" title="DataStruct"></a><code>DataStruct</code></h2><p>为各种数据结构，包含</p>
+<ul>
+<li><p><code>GravityEvent</code> 重力侵蚀结构体。</p>
+</li>
+<li><p><code>BSCode</code> 单元坐标结构体</p>
+</li>
+<li><p><strong><code>Para</code></strong> 河段的固定参数结构体，包括波速系数、坦化系数、坡度、长、曼宁系数、边坡系数、角度、汇水面积、土质（D50，土地利用类型，土壤类型）、孔隙率、渗透率、左右源坡面的坡度长度面积、<strong>A</strong>、上下游高程</p>
+<p>大卫添加了ErosionK1,K2, Beta1, Beta2</p>
+</li>
+<li><h3 id="TreeNode结构体，代表一条河段。内含"><a href="#TreeNode结构体，代表一条河段。内含" class="headerlink" title="TreeNode结构体，代表一条河段。内含"></a><code>TreeNode</code>结构体，代表一条河段。内含</h3><ul>
+<li><code>TaskCount</code>：上游未计算或计算中河段数</li>
+<li><code>UnderCalc</code>：是否正在被计算</li>
+<li><code>StralherOrder</code>：级别</li>
+</ul>
+</li>
+<li><p><code>XAJParameter</code>：新安江模型参数</p>
+</li>
+<li><p><code>sStatus</code>结构体：</p>
+</li>
+<li><p><code>HSParameter</code>：高边坡产流模型。</p>
+</li>
+<li><p><code>List</code>类：</p>
+<ul>
+<li>在<code>ListNode</code>类上派生。该类包括bsl, bsv, regionindex, sorder, tmp</li>
+<li>函数包括<code>insert</code>, <code>remove</code>, <code>find</code>, <code>N_find</code>, <code>first</code>, <code>free</code><ul>
+<li><code>find</code>：找节点，返回非零值<code>SOrder</code></li>
+<li><code>N_find</code>，根据<code>length</code>（bsl）和<code>value</code>(bsv)寻找，返回的是节点。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="TreeList，包括："><a href="#TreeList，包括：" class="headerlink" title="TreeList，包括："></a><code>TreeList</code>，包括：</h3><ul>
+<li><code>TreeList</code>类。<strong>一个<code>TreeList</code>代表一个<code>RegionIndex</code></strong>。注意<code>TeeList</code>内部节点为<code>TreeNode</code>结构体</li>
+<li>该类内部各种代码应该是用于对河道构造树，然后计算每个单元的regionindex。包括：<ul>
+<li><code>initialize</code>，初始化。</li>
+<li><code>add</code>：增加一条河段，包括<code>BSCode</code>坐标信息，<code>Para</code>参数信息，<code>SOrder</code>分级。似乎增加的过程还比较麻烦。如果是树的根，则需要各种赋值。如果树已经有根，先根据<code>BSCode</code>找到该插入的位置，也就是父节点。同时需要标记计算的一线，还要向上至更新<code>TaskCount</code>，得到依赖上游的河段</li>
+<li><code>isCnnNode</code>，判断在<code>Regionconnection</code>中的连接关系，补充判断其上游区域是否在本次计算任务内。</li>
+<li><code>GetBranch</code>：计算<code>Min</code>。多义：从头节点出发，找到一个介于<code>Min</code>和<code>Max</code>之间的树</li>
+<li><code>ExpandTo</code>：向<code>ToList</code>内存区展平</li>
+<li><code>FinishBranch</code>：当算完一个子任务时（普通的子任务，<code>RegionIndex</code>并没有算完），这个<code>FinishBranch</code>负责该普通任务算完后其所在<code>RegionIndex</code>的/<code>TaskCount</code>和<code>UnderCalc</code>的信息更新</li>
+<li><code>FindParentPosit</code>：找到父节点位置</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="functions"><a href="#functions" class="headerlink" title="functions"></a><code>functions</code></h2><ul>
+<li><code>TreeList GetBranchInForest(TreeList* TotalList, int tmpUnitSize, int MinUnitSize, int GradeTwoCount)</code>，作用是在一个森林里找到一个足够大的子树。如果没找到，规模减半，重头开始</li>
+<li><code>bool IsEmptyForest(TreeList* TotalList, int GradeTwoCount)</code>：只要存在序号小于<code>GradeTwoCount</code>（当前不同<code>regionindex</code>的个数）的空节点，即为空森林</li>
+<li><code>template&lt;class T&gt;void ZeroFill(T* Qs, long DataCount)</code>：将数组元素置0</li>
+<li><strong>马斯京根汇流模型函数</strong>：<ul>
+<li></li>
+</ul>
+</li>
+</ul>
+<h2 id="yuliang"><a href="#yuliang" class="headerlink" title="yuliang"></a><code>yuliang</code></h2><ul>
+<li><p><code>YuliangZhan</code>结构体：储存雨量站的位置、权重及代码</p>
+</li>
+<li><p><code>PointPro</code>结构体：储存雨量站距离河段的距离以及</p>
+</li>
+<li><p><code>Cyuliang</code>类</p>
+<ul>
+<li><code>GetMonthDays</code></li>
+<li><code>float Cyuliang::P(double HourOffset,float hour,double* Day,float dt)</code>：</li>
+<li><code>Initialize</code>：x，y为一条河段的坐标，要求经纬度坐标，得到河段的降雨序列</li>
+<li><code>GetDataByTS</code>：</li>
+<li><code>GetGageTS</code>:</li>
+<li><code>DeleteList</code></li>
+<li><code>ADODB</code></li>
+<li><code>MSTEP</code></li>
+<li><code>GetDataByDW</code>：距离权重法获取雨量</li>
+<li><p><code>JwUnitToXYUnit</code>：经纬度转换到x，y：</p>
+<script type="math/tex; mode=display">
+MiddleY=jw.wCoord/180.0*\pi;\\
+Rx=6378.245*\cos(MiddleY)/\sqrt{(1.0-0.006693422*\sin(MiddleY)^2)};\\
+Ry=6378.245;</script></li>
+<li><p><code>m_TargetPoints</code></p>
+</li>
+<li><p><code>m_PSeries</code>;//河段的降雨量序列，计算起止时间之间有多少d，链表就有多少项</p>
+</li>
+<li><p>各种读入：<code>ReadPrevHalf</code>, <code>ReadLastHalf</code>, <code>ReadWholeMonth</code>, <code>MonthAdd</code></p>
+</li>
+<li><p><code>PArray</code>[24]：日雨量分摊到每个小时</p>
+</li>
+<li><p><code>CalcuWt</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="AVPM"><a href="#AVPM" class="headerlink" title="AVPM"></a><code>AVPM</code></h2><p>扩散波及重力侵蚀模型，主要包含AVPM类</p>
+<ul>
+<li>常数：g, gamma, nu=1e-6, fuzzpro(模糊概率积分值),大小为122*7</li>
+<li>ssmethod, mstep, sccd？                   </li>
+<li>nano</li>
+<li>关键参数：Q用来储存水流，Qout用来储存出口水流。</li>
+<li><p>Calc：求解扩散波方程的主计算函数。计算流程如下：</p>
+<ul>
+<li>上游来流混合，同时检验产沙上限</li>
+<li>求空间步长数（需要用到最大流量及最大波速）</li>
+<li>空间步长循环：<ul>
+<li>非第0层Qout赋给Q</li>
+<li>第一个时间点不计算</li>
+<li>Q很小时改变糙率（完成阻力分解）</li>
+<li>根据流量计算水深：$Q=AC\sqrt{RJ}$，其中$A=mh^2$, $C=\frac{1}{n}R^{1/6}$, $R=\frac{mh}{2\sqrt{1+m^2}}$，代入即可解得：<script type="math/tex">h=(\frac{2^\frac{2}{3}Q(1+m)^{1/3}}{m^{5/3}\sqrt{S}})^{\frac{3}{8}}</script></li>
+<li>先用Q[0]计算h1，用Qout[0]计算h3。</li>
+<li>开启时间循环：<ul>
+<li>Qout[t]=Q[t]</li>
+<li>计算h0,h2,以及新的h1,h3. 注意h0  对应(i,n-1)，h1对应(i,n)，h2对应(i+1, n-1),h3对应(i+1,n)</li>
+<li>计算u0~u3, c0~c3,从而求得$\bar{c}$，$\bar{B}$，进而再由$\frac{\partial Q}{\partial x}$求得$\frac{\partial h}{\partial x}$以及能坡$J$</li>
+<li>反过来由能坡$J$又能求新的u0~3,c0~3,B0~3,从而有新的$\bar{c}$，$\bar{B}$。看收敛就是看前一个$\bar{c}$与新的$\bar{c}$之间的差距。</li>
+<li>如果波速不收敛，则采用牛顿迭代。</li>
+<li>完成后采用空间四点偏心离散求解，得到新的Qout[t]。</li>
+<li>迭代至Qout[t]收敛<ul>
+<li>用Qout[t]计算h3，用之前的h0,h1,h2得$\bar{h}$。$\frac{\partial Q}{\partial x}$不重算，得到$\frac{\partial h}{\partial x}$以及能坡$J$。。。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>上游水沙演进到出口，再叠加本单元水沙到出口</li>
+</ul>
+</li>
+<li><p>Getss：</p>
+<ul>
+<li>计算含沙量。输入包括体积含沙量，水深，流速和沉速指针（？）</li>
+<li>这里考虑了Svm，<strong>极限体积比含沙量</strong>，只与D50相关。</li>
+</ul>
+</li>
+<li><p>GetssFei：</p>
+<ul>
+<li>计算含沙量。采用费祥俊公式。</li>
+</ul>
+</li>
+<li><p>SediCalc:</p>
+<ul>
+<li>SSin和SSout，即进口和出口的挟沙力。</li>
+<li>如果出口挟沙力大于含沙量且在涨水，Sout[t]采用某公式计算；否则采用另外的公式计算。</li>
+<li>如果考虑重力侵蚀且崩塌量大于0且为淤积（由上面步骤确定），则要考虑崩塌量的变化。</li>
+</ul>
+</li>
+<li><p>initialize：</p>
+<ul>
+<li>初始化变量</li>
+</ul>
+</li>
+<li><p>finalize:</p>
+<ul>
+<li>回收内存空间</li>
+</ul>
+</li>
+<li>重力侵蚀的函数：<ul>
+<li>InitGravityPara：初始化重力侵蚀参数</li>
+<li>InitGullyShap：同时给左坡右坡初始化，为了后边调整水位</li>
+<li>ConvertTao</li>
+<li>CalFs</li>
+<li>CalFuzzProbi</li>
+<li>HowMuchFailed</li>
+</ul>
+</li>
+<li>SaveStatus：<ul>
+<li>保存到status表中的数据</li>
+<li>类似于移动光标。但好像只保存了channelero和gravityero?</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/dyrim/" rel="tag"># dyrim</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/04/《R语言实战》学习笔记/" rel="next" title="《R语言实战》学习笔记">
+                <i class="fa fa-chevron-left"></i> 《R语言实战》学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/28/Word论文排版/" rel="prev" title="Word论文排版">
+                Word论文排版 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">张玍</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#NewRouting"><span class="nav-number">1.</span> <span class="nav-text">NewRouting</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CoorTrans"><span class="nav-number">1.1.</span> <span class="nav-text">CoorTrans</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CpuUsageCount"><span class="nav-number">1.2.</span> <span class="nav-text">CpuUsageCount</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DataStruct"><span class="nav-number">1.3.</span> <span class="nav-text">DataStruct</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TreeNode结构体，代表一条河段。内含"><span class="nav-number">1.3.1.</span> <span class="nav-text">TreeNode结构体，代表一条河段。内含</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TreeList，包括："><span class="nav-number">1.3.2.</span> <span class="nav-text">TreeList，包括：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#functions"><span class="nav-number">1.4.</span> <span class="nav-text">functions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yuliang"><span class="nav-number">1.5.</span> <span class="nav-text">yuliang</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AVPM"><span class="nav-number">1.6.</span> <span class="nav-text">AVPM</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张玍</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
