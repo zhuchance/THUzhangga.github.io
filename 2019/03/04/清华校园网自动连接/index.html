@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="THU,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="作为一名热爱科ban研zhuan的博士生，当我放假回家的时候，最挂念的就是实验室电脑上的文件和程序。">
+<meta name="keywords" content="THU">
+<meta property="og:type" content="article">
+<meta property="og:title" content="清华校园网自动连接">
+<meta property="og:url" content="http://yoursite.com/2019/03/04/清华校园网自动连接/index.html">
+<meta property="og:site_name" content="张玍的博客">
+<meta property="og:description" content="作为一名热爱科ban研zhuan的博士生，当我放假回家的时候，最挂念的就是实验室电脑上的文件和程序。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/03/04/清华校园网自动连接/初始界面.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/03/04/清华校园网自动连接/运行界面.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/04/清华校园网自动连接/1551360462972.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/04/清华校园网自动连接/1551360966757.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/04/清华校园网自动连接/1551361956642.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/04/清华校园网自动连接/1551362082296.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/04/清华校园网自动连接/1551366341291.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/04/清华校园网自动连接/1551362517929.png">
+<meta property="og:updated_time" content="2019-03-05T07:35:23.315Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="清华校园网自动连接">
+<meta name="twitter:description" content="作为一名热爱科ban研zhuan的博士生，当我放假回家的时候，最挂念的就是实验室电脑上的文件和程序。">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/04/清华校园网自动连接/初始界面.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/04/清华校园网自动连接/">
+
+
+
+
+
+  <title>清华校园网自动连接 | 张玍的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">张玍的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">发现生活中的美好</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/04/清华校园网自动连接/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张玍">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张玍的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">清华校园网自动连接</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-04T17:39:34+08:00">
+                2019-03-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>作为一名热爱科ban研zhuan的博士生，当我放假回家的时候，最挂念的就是实验室电脑上的文件和程序。</p>
+<a id="more"></a>在校外无法通过mstsc使用IP直连，只能通过第三方远程连接软件诸如Teamviewer、向日葵等来连接电脑。但是我们的清华校园网TUnet非常地人性化，当你在线终端超过3或者连接太久或者短时间内消耗太大流量（如windows自动更新→_→），它总会自动断掉。此时，面对Teamviewer上变灰的设备，我们难道束手无策吗？当然我们可以叫还辛勤地在实验室工作的师兄师姐帮忙联网，但是其实也有巧妙地让电脑自动连接校园网的方法。本文提出了两种解决校园网自动连接的方案：基于C#的AutoConnect和基于Python的AutoTUnet，希望能让大家不再为断网而忧愁掉发。
+
+# AutoConnect
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">定时检查清华校园网连接状态</span><br></pre></td></tr></table></figure>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AutoConnect.exe根据用户设定的时间间隔，定时检查清华网连接状态：当网络断开时，则根据用户填写的用户名和密码填充网络登录界面信息，并进行连接，从而保证网络连接。</span><br><span class="line"></span><br><span class="line">在采用teamwear等远程连接软件时，通过AutoConnect可以避免出现网络断开而无法使用的情况。</span><br></pre></td></tr></table></figure>
+<h3 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">硬件环境：PC机</span><br><span class="line">软件环境：Windows系列操作系统</span><br></pre></td></tr></table></figure>
+<h3 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h3><p>运行 AutoConnect.exe， 输入“用户名”、“密码”和“间隔连接时间”。其中“间隔连接时间”为两次连接的间隔时间，以 s 为单位，如输入“1800”，则表示间隔 30 分钟（1800 秒）连接。 </p>
+<p><img src="/2019/03/04/清华校园网自动连接/初始界面.jpg" alt=""></p>
+<p><img src="/2019/03/04/清华校园网自动连接/运行界面.png" alt=""></p>
+<p>点击“断开自动连接”，则结束当前的定时连接，若需要断网需要进一步操作。 </p>
+<h3 id="下载方式"><a href="#下载方式" class="headerlink" title="下载方式"></a>下载方式</h3><p>本软件为开源程序，作者为Ron Wang，Github地址：<a href="https://github.com/Ron-Wang/AutoConnect" target="_blank" rel="noopener">https://github.com/Ron-Wang/AutoConnect</a></p>
+<h1 id="Python版解决方案：AutoTUnet"><a href="#Python版解决方案：AutoTUnet" class="headerlink" title="Python版解决方案：AutoTUnet"></a>Python版解决方案：AutoTUnet</h1><p>经过笔者的试用，AutoConnect界面精美，功能健全，想必编写它的是一个可爱的小哥哥。但是它的一个痛点在于：x掉后程序直接关停，无法在后台运行。笔者作为一名Py爱好者，也有一个不太成熟的解决方案：利用Python爬虫登录清华校园网，同时设定Windows任务自动运行Python脚本。</p>
+<h3 id="Python爬虫登录校园网"><a href="#Python爬虫登录校园网" class="headerlink" title="Python爬虫登录校园网"></a>Python爬虫登录校园网</h3><p>你需要提前配置好Python环境并安装requests库，如果没有那就算了。</p>
+<p>如果恰好有，下面是具体的Python脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">username = <span class="string">'zhangga18'</span> <span class="comment"># 引号内输入你的用户名</span></span><br><span class="line">password = <span class="string">'2014010330zg'</span> <span class="comment"># 引号内输入你的密码</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">connect</span><span class="params">()</span>:</span> <span class="comment"># 联网函数</span></span><br><span class="line">    params = &#123;<span class="string">'action'</span>: <span class="string">'login'</span>, <span class="string">'username'</span>:username, <span class="string">'password'</span>: password, <span class="string">'ac_id'</span>: <span class="number">1</span>&#125;</span><br><span class="line">    r = requests.post(<span class="string">'http://net.tsinghua.edu.cn/do_login.php'</span>, params = params)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">testTUnet</span><span class="params">()</span>:</span> <span class="comment"># 测试是否断网</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        r = requests.get(<span class="string">'http://baidu.com'</span>, timeout=<span class="number">1</span>) <span class="comment"># 用百度来测试网络连接状态</span></span><br><span class="line">        r.raise_for_status()</span><br><span class="line">        print(<span class="string">'connected'</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        connect() <span class="comment"># 如果断网就联网</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    testTUnet()</span><br></pre></td></tr></table></figure>
+<p>复制上面的脚本，输入用户名及密码，保存到一个txt文档中，改变文件名为如“AutoTUnet.py”。为了防止可能的编码的问题，最好用专用代码编辑器编辑，或者点击阅读原文下载代码包。<strong>如果你的环境是Python2，保存路径最好不好有中文或其他中文符号。</strong></p>
+<p>理论上通过这个脚本可以实现自动连网。但是不美妙的地方在于运行的总会有一个黑框闪过。可以考虑采用下面的解决方案：</p>
+<ol>
+<li><p>编写一个运行Python的bat脚本，保存为AutoTUnet.bat（如果Python没有添加到PATH，需要写下完整的Python所在路径。）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dir</span><br><span class="line">python AutoTUnet.py</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写一个不在黑框中运行bat脚本的VB脚本，保存为AutoTUnet.vbs</p>
+<figure class="highlight plain"><figcaption><span>basic</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">createobject (&quot;wscript.shell&quot;).run &quot;AutoTUnet.bat&quot;,0</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>最后我们只需要运行VB脚本就行了。</p>
+<h3 id="Windows定时运行VB脚本"><a href="#Windows定时运行VB脚本" class="headerlink" title="Windows定时运行VB脚本"></a>Windows定时运行VB脚本</h3><p>这个过程稍微复杂点。下面以Win10为例说明如何进行：</p>
+<p>首先在Windows搜索框中搜索”任务计划程序“</p>
+<p><img src="/2019/03/04/清华校园网自动连接/1551360462972.png" alt=""></p>
+<p><img src="/2019/03/04/清华校园网自动连接/1551360966757.png" alt=""></p>
+<p>点击上图右侧的【创建任务】，弹出如下图所示界面，输入名称和描述。</p>
+<p><img src="/2019/03/04/清华校园网自动连接/1551361956642.png" alt=""></p>
+<p>点击【触发器】，点击【新建】，在下图右侧框中输入你希望的运行时间间隔。下图设定1天内间隔1小时运行一次。设定完后点击确定。</p>
+<p><img src="/2019/03/04/清华校园网自动连接/1551362082296.png" alt="1551362082296"></p>
+<p>点击“操作”，下面是最关键的一步。解释一下三个文本框内容的含义，【程序或脚本】文本框中填的是VB脚本的名称，【起始于】文本框中填的是VB脚本的目录</p>
+<p><img src="/2019/03/04/清华校园网自动连接/1551366341291.png" alt="1551366341291"></p>
+<p>可以进一步对【条件】或【设置】进行进一步设置，一般按照默认配置即可，点击确定即可完成对定时任务的设置。完成后可以在【任务计划程序库】中看到”AutoTUnet“。</p>
+<p><img src="/2019/03/04/清华校园网自动连接/1551362517929.png" alt=""></p>
+<p>经过笔者的试用，理论上可以做到神不知鬼不觉联网啦~</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/THU/" rel="tag"># THU</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/23/如何移除百度搜索结果中的百家号/" rel="next" title="如何移除百度搜索结果中的百家号">
+                <i class="fa fa-chevron-left"></i> 如何移除百度搜索结果中的百家号
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">张玍</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行环境"><span class="nav-number">2.</span> <span class="nav-text">运行环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用说明"><span class="nav-number">3.</span> <span class="nav-text">使用说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载方式"><span class="nav-number">4.</span> <span class="nav-text">下载方式</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Python版解决方案：AutoTUnet"><span class="nav-number"></span> <span class="nav-text">Python版解决方案：AutoTUnet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Python爬虫登录校园网"><span class="nav-number">1.</span> <span class="nav-text">Python爬虫登录校园网</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows定时运行VB脚本"><span class="nav-number">2.</span> <span class="nav-text">Windows定时运行VB脚本</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张玍</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
