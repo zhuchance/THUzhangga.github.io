@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CFD,matlab,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Notes of the Finite Volume Method from  MIT Open Courseware: Computational Methods in Aerospace Engineering Tsinghua Advanced Computation Fluid Dynamics Course Toro, Eleuterio F. Riemann solvers and n">
+<meta name="keywords" content="CFD,matlab">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Finite volume implemented by MATLAB">
+<meta property="og:url" content="http://yoursite.com/2019/04/11/Finite-volume-implemented-by-MATLAB/index.html">
+<meta property="og:site_name" content="张玍的博客">
+<meta property="og:description" content="Notes of the Finite Volume Method from  MIT Open Courseware: Computational Methods in Aerospace Engineering Tsinghua Advanced Computation Fluid Dynamics Course Toro, Eleuterio F. Riemann solvers and n">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/04/11/Finite-volume-implemented-by-MATLAB/burgers.gif">
+<meta property="og:image" content="http://yoursite.com/2019/04/11/Finite-volume-implemented-by-MATLAB/1555035241337.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/11/Finite-volume-implemented-by-MATLAB/1555033588870.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/11/Finite-volume-implemented-by-MATLAB/1555035473175.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/11/Finite-volume-implemented-by-MATLAB/1555035662477.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/11/Finite-volume-implemented-by-MATLAB/godunov.gif">
+<meta property="og:updated_time" content="2019-04-15T07:48:18.511Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Finite volume implemented by MATLAB">
+<meta name="twitter:description" content="Notes of the Finite Volume Method from  MIT Open Courseware: Computational Methods in Aerospace Engineering Tsinghua Advanced Computation Fluid Dynamics Course Toro, Eleuterio F. Riemann solvers and n">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/11/Finite-volume-implemented-by-MATLAB/burgers.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/11/Finite-volume-implemented-by-MATLAB/">
+
+
+
+
+
+  <title>Finite volume implemented by MATLAB | 张玍的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">张玍的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">发现生活中的美好</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/11/Finite-volume-implemented-by-MATLAB/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张玍">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张玍的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Finite volume implemented by MATLAB</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-11T19:49:35+08:00">
+                2019-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Notes of the Finite Volume Method from</p>
+<ul>
+<li>MIT Open Courseware: Computational Methods in Aerospace Engineering</li>
+<li>Tsinghua Advanced Computation Fluid Dynamics Course</li>
+<li>Toro, Eleuterio F. <em>Riemann solvers and numerical methods for fluid dynamics: a practical introduction</em>. Springer Science &amp; Business Media, 2013<a id="more"></a></li>
+</ul>
+<p>[TOC]</p>
+<h2 id="Finite-Volume-Method-有限体积法"><a href="#Finite-Volume-Method-有限体积法" class="headerlink" title="Finite Volume Method 有限体积法"></a>Finite Volume Method 有限体积法</h2><h3 id="控制体"><a href="#控制体" class="headerlink" title="控制体"></a>控制体</h3><p>考虑Euler方程：</p>
+<script type="math/tex; mode=display">
+\frac { \partial U } { \partial t } + \frac { \partial F } { \partial x } = 0</script><p>把$x​$的求解域$[a, b]​$分为M分，第$i​$个区域范围为$[x_{i-1/2}, x_{i+1/2}]​$，并且有$x_{1/2}=a​$, $x_{M+1/2}=b​$。称$[x_{i-1/2}, x_{i+1/2}]​$为第$i​$个空间控制体。</p>
+<h3 id="全离散"><a href="#全离散" class="headerlink" title="全离散"></a>全离散</h3><p>在时空控制体$\left[ x _ { i - 1 / 2 } , x _ { i + 1 / 2 } \right] \times \left[ t _ { n } , t _ { n + 1 } \right]$对欧拉方程积分有：</p>
+<script type="math/tex; mode=display">
+\int _ { x _ { i - 1 / 2 } } ^ { x _ { i + 1 / 2 } } \left[ U \left( x , t _ { n + 1 } \right) - U \left( x , t _ { n } \right) \right] d x + \int _ { t _ { n } } ^ { t _ { n + 1 } } \left[ F \left( U \left( x _ { i + 1 / 2 } , t \right) \right) - F \left( U \left( x _ { i - 1 / 2 } , t \right) \right) \right] d t = 0</script><p>定义数值解在<strong>单元内的平均值</strong>：</p>
+<script type="math/tex; mode=display">
+U_{i} \equiv \frac{1}{\Delta x_{i}} \int_{x_{i-\frac{1}{2}}}^{x_{i+\frac{1}{2}}} U d x, \quad \text { where } \quad \Delta x_{i} \equiv x_{i+\frac{1}{2}}-x_{i-\frac{1}{2}}</script><p>并且定义半节点通量：</p>
+<script type="math/tex; mode=display">
+F_{i+1/2}=F \left( U \left( x _ { i + 1 / 2 } , t \right)\right.
+\\
+F_{i-1/2}=F \left( U \left( x _ { i - 1 / 2 } , t \right)\right.</script><p>则：</p>
+<script type="math/tex; mode=display">
+\int _ { x _ { i - 1 / 2 } } ^ { x _ { i + 1 / 2 } } \left( U ^ { n + 1 } - U ^ { n } \right) d x + \int _ { t _ { n } } ^ { t _ { n + 1 } } F _ { i + 1 / 2 } d t - \int _ { t _ { n } } ^ { t _ { n + 1 } } F _ { i - 1 / 2 } d t =0</script><script type="math/tex; mode=display">
+\frac { \overline { U } _ { i } ^ { n + 1 } - \overline { U } _ { i } ^ { n } } { \Delta t } + \frac { 1 } { \Delta x \Delta t } \left[ \int _ { t _ { n } } ^ { t _ { n + 1 } } F \left( U \left( x _ { i + 1 / 2 } , t \right) \right) d t - \int _ { t _ { n } } ^ { t _ { n + 1 } } F \left( U \left( x _ { i - 1 / 2 } , t \right) \right) d t \right] = 0</script><h3 id="半离散"><a href="#半离散" class="headerlink" title="半离散"></a>半离散</h3><p>只对$x$积分可以得到半离散的形式：</p>
+<script type="math/tex; mode=display">
+\frac{\mathrm{d}}{\mathrm{d} t} \int_{x_{i-\frac{1}{2}}}^{x_{i+\frac{1}{2}}} U d x+F\left.(U)\right|_{x_{i+\frac{1}{2}}}-F\left.(U)\right|_{x_{i-\frac{1}{2}}}=0</script><p>同样定义数值解在<strong>单元内的平均值</strong>，则：</p>
+<script type="math/tex; mode=display">
+\Delta x_{i} \frac{\mathrm{d} U_{i}}{\mathrm{d} t}+F\left.(U)\right|_{x_{i+\frac{1}{2}}}-F\left.(U)\right|_{x_{i-\frac{1}{2}}}=0</script><p>进一步可以写为：</p>
+<script type="math/tex; mode=display">
+\frac{\mathrm{d} U_{i}}{\mathrm{d} t}=-\frac{F\left.(U)\right|_{x_{i+\frac{1}{2}}}-F\left.(U)\right|_{x_{i-\frac{1}{2}}}} {\Delta x_{i}}</script><h4 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h4><p>重构：由于只储存数值解在单元内的平均值，需要通过平均值求出数值解在整个单元内的分布。如零阶重构：</p>
+<script type="math/tex; mode=display">
+U(x, t)=U_{i}(t) \quad \text { for } \quad x_{i-\frac{1}{2}}<x<x_{i+\frac{1}{2}}</script><h4 id="演化"><a href="#演化" class="headerlink" title="演化"></a>演化</h4><p>时间方向的离散可以采用Runge-Kutta、Crank-Nicolson方法等。</p>
+<h2 id="Demo-First-order-Upwind-Scheme-for-Burgers-Equation"><a href="#Demo-First-order-Upwind-Scheme-for-Burgers-Equation" class="headerlink" title="Demo: First-order Upwind Scheme for Burgers Equation"></a>Demo: First-order Upwind Scheme for Burgers Equation</h2><p>下面给出MIT Course上的一个用FVM求解Burgers Equation的示例程序并进行解读。基本方程：</p>
+<script type="math/tex; mode=display">
+\frac { \partial u } { \partial t } + \frac { 1 } { 2 } \frac { \partial u ^ { 2 } } { \partial x } = 0</script><p>主求解程序<code>simulateFV.m</code></p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">close all;</span><br><span class="line">n = <span class="number">500</span>;</span><br><span class="line">dx = <span class="number">2</span> * <span class="built_in">pi</span> / n; </span><br><span class="line">x = [<span class="number">1</span>:n] * dx;</span><br><span class="line">u0 = (<span class="built_in">sin</span>(x) + <span class="number">1</span>) / <span class="number">2</span>; </span><br><span class="line">dt = <span class="number">0.01</span>;</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:<span class="number">250</span></span><br><span class="line">	[t,u] = ode45(@dudtFV, [<span class="number">0</span>, dt], u0);</span><br><span class="line">	u0 = u(<span class="keyword">end</span>,:);</span><br><span class="line">	<span class="built_in">plot</span>(x, u0);</span><br><span class="line">	ylim([<span class="number">0</span>, <span class="number">1</span>])</span><br><span class="line">	drawnow;</span><br><span class="line">	pause(dt);</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>上面的<code>ode45</code>是Matlab内置的ODE（常微分方程）求解器。</p>
+<blockquote>
+<p><code>[t,y] = ode45(odefun,tspan,y0)</code>, where <code>tspan = [t0 tf]</code>, integrates the system of differential equations $y’=f(t,y)​$ from <code>t0</code> to <code>tf</code> with initial conditions <code>y0</code>. Each row in the solution array <code>y</code> corresponds to a value returned in column vector <code>t</code>.</p>
+<p>source: <a href="https://www.mathworks.com/help/matlab/ref/ode45.html?s_tid=mwa_osa_a" target="_blank" rel="noopener">https://www.mathworks.com/help/matlab/ref/ode45.html?s_tid=mwa_osa_a</a></p>
+</blockquote>
+<p>在原方程中，对$U​$重构以后可以算出方程右边的值，于是方程变成了常微分方程。</p>
+<p><code>dudtFV.m</code></p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[dudt]</span> = <span class="title">dudtFV</span><span class="params">(t, u)</span></span></span><br><span class="line">    n = <span class="built_in">length</span>(u);</span><br><span class="line">    dx = <span class="number">1</span>/n;</span><br><span class="line">    Flux = <span class="number">0.5</span> * u.^<span class="number">2</span>;</span><br><span class="line">    <span class="comment">% upwind flux scheme</span></span><br><span class="line">    FluxP = Flux; <span class="comment">% flux at i+1/2</span></span><br><span class="line">    FluxM = <span class="built_in">circshift</span>(Flux, +<span class="number">1</span>); <span class="comment">% flux at i-1/2</span></span><br><span class="line">    dudt = (FluxM - FluxP) /dx;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>上面程序中有几个地方需要注意：</p>
+<ul>
+<li>Flux用的$u^22/​$，针对不同的方程，只需要改变它的形式。</li>
+<li>$F_{i-1/2}-F_{i+1/2}=F_{i-1}-F_{i}​$，即采用迎风格式。</li>
+<li><code>circshift</code>函数：<code>Y = circshift(A,K)</code> circularly shifts the elements in array <code>A</code> by <code>K</code> positions. 相当于<strong>周期性边界条件</strong>。</li>
+</ul>
+<p>结果：</p>
+<p><img src="/2019/04/11/Finite-volume-implemented-by-MATLAB/burgers.gif" alt=""></p>
+<h2 id="The-method-of-Godunov-for-non-linear-systems"><a href="#The-method-of-Godunov-for-non-linear-systems" class="headerlink" title="The method of Godunov for non-linear systems"></a>The method of Godunov for non-linear systems</h2><h3 id="Bases"><a href="#Bases" class="headerlink" title="Bases"></a>Bases</h3><script type="math/tex; mode=display">
+\left. \begin{aligned} \mathrm { PDEs } & : \mathbf { U } _ { t } + \mathbf { F } ( \mathbf { U } ) _ { x } = \mathbf { 0 } \\ \mathrm { ICs } & : \mathbf { U } ( x , 0 ) = \mathbf { U } ^ { ( 0 ) } ( x ) \\ \mathrm { BCs } & : \mathbf { U } ( 0 , t ) = \mathbf { U } _ { l } ( t ) , \mathbf { U } ( L , t ) = \mathbf { U } _ { \mathrm { r } } ( t ) \end{aligned} \right\}</script><p>Godunov: Piece0wise constant distribution of data, generate local Riemann problems $R P \left( \mathbf { U } _ { i } ^ { n } , \mathbf { U } _ { i + 1 } ^ { n } \right)$, centred at the intercell boundary position $x_{i+1/2}​$.</p>
+<p><img src="/2019/04/11/Finite-volume-implemented-by-MATLAB/1555035241337.png" alt=""></p>
+<h3 id="First-version-of-Godunov’s-method"><a href="#First-version-of-Godunov’s-method" class="headerlink" title="First version of Godunov’s method:"></a>First version of Godunov’s method:</h3><p>同样定义数值解在单元内的平均值：</p>
+<script type="math/tex; mode=display">
+\mathbf { U } _ { i } ^ { n + 1 } = \frac { 1 } { \Delta x } \int _ { x _ { i - \frac { 1 } { 2 } } } ^ { x _ { i + \frac { 1 } { 2 } } } \widetilde { \mathbf { U } } \left( x , t ^ { n + 1 } \right) \mathrm { d } x</script><p>其中，$\widetilde { \mathbf { U } } \left( x , t ^ { n + 1 } \right)$是全局解。同时，黎曼问题的解具有相似性：</p>
+<script type="math/tex; mode=display">
+\widetilde { \mathbf { U } } ( x , t ) = \mathbf { U } _ { i + \frac { 1 } { 2 } } ( \overline { x } / \overline { t } ) , x \in \left[ x _ { i } , x _ { i + 1 } \right]</script><p>上面的$\bar{x}$和$\bar{t}$是局部坐标。对于第$i$个单元，左边界和右边界都具有黎曼解，取二者在$\Delta t$处的所有解的平均。为了防止两波的干扰，需要满足$\Delta t \leq \frac { \frac { 1 } { 2 } \Delta x } { S _ { \max } ^ { n } }$，即不超过$ \frac{1}{2}\Delta x​$。因此解为：</p>
+<script type="math/tex; mode=display">
+\mathbf { U } _ { i } ^ { n + 1 } = \frac { 1 } { \Delta x } \int _ { 0 } ^ { \frac { 1 } { 2 } \Delta x } \mathbf { U } _ { i - \frac { 1 } { 2 } } \left( \frac { x } { \Delta t } \right) \mathrm { d } x + \frac { 1 } { \Delta x } \int _ { - \frac { 1 } { 2 } \Delta x } ^ { 0 } \mathbf { U } _ { i + \frac { 1 } { 2 } } \left( \frac { x } { \Delta t } \right) \mathrm { d } x</script><p>第一版有两个缺点，类似CFL条件对时间步长有限制；上式中包含积分项，难计算。</p>
+<p><img src="/2019/04/11/Finite-volume-implemented-by-MATLAB/1555033588870.png" alt=""></p>
+<h3 id="Second-version-of-Godunov’s-method"><a href="#Second-version-of-Godunov’s-method" class="headerlink" title="Second version of Godunov’s method"></a>Second version of Godunov’s method</h3><script type="math/tex; mode=display">
+\mathbf { U } _ { i } ^ { n + 1 } = \mathbf { U } _ { i } ^ { n } + \frac { \Delta t } { \Delta x } \left[ \mathbf { F } _ { i - \frac { 1 } { 2 } } - \mathbf { F } _ { i + \frac { 1 } { 2 } } \right]</script><p>其中，$\mathbf { F } _ { i + \frac { 1 } { 2 } } = \mathbf { F } \left( \mathbf { U } _ { i + \frac { 1 } { 2 } } ( 0 ) \right)$，并且时间步长满足：$\Delta t \leq \frac { \Delta x } { S _ { \max } ^ { n } }$）（$S _ { \max } ^ { n }$为最大波速，从而避免波到下一个单元）。为何允许的时间步长是前面的两倍呢？限制条件不一样。前面为了波不相互干扰，这里为了波。</p>
+<h4 id="Evaluation-of-the-intercell-fluxes"><a href="#Evaluation-of-the-intercell-fluxes" class="headerlink" title="Evaluation of the intercell fluxes"></a>Evaluation of the intercell fluxes</h4><p>为了计算下一个时刻的$\mathbf { U } _ { i } ^ { n + 1 }$，需要计算cell之间的flux。从上式看，需要计算$\mathbf { F } _ { i - \frac { 1 } { 2 }}$以及$\mathbf { F } _ { i + \frac { 1 } { 2 }}$，也即计算$\mathbf { U } _ { i - \frac { 1 } { 2 } } ( x / t=0 )$以及$\mathbf { U } _ { i + \frac { 1 } { 2 } } ( x / t =0)$。</p>
+<p>以计算$\mathbf { U } _ { i + \frac { 1 } { 2 } } ( x / t )$为例。已知黎曼问题$R P \left( \mathbf { U } _ { i } ^ { n } , \mathbf { U } _ { i + 1 } ^ { n } \right)$（$i+1/2$是interface，而$i$在左，$i+1$在右）。根据$u$的正负可能有以下的wave patterns：</p>
+<p><img src="/2019/04/11/Finite-volume-implemented-by-MATLAB/1555035473175.png" alt=""></p>
+<p>编程思路如下：</p>
+<ul>
+<li><p>从<a href="https://thuzhangga.github.io/2019/04/07/Riemann-problem/" target="_blank" rel="noopener">Rimann Problem</a>中已经能得到精确解$p^<em>$和$u^</em>$</p>
+</li>
+<li><p>计算$S$处的$W$，Toro书中提供了部分计算流程图（Fig. 4.14）</p>
+</li>
+<li><p>选择time step：</p>
+<script type="math/tex; mode=display">
+\Delta t = \frac { C _ { \mathrm { cfl } } \Delta x } { S _ { \mathrm { max } } ^ { n } }</script><p>其中，$C _ { \mathrm { cfl } }​$为Courant数，在0~1，$S _ { \max } ^ { n }​$是通过区域内的最大波速：</p>
+<script type="math/tex; mode=display">
+S _ { \max } ^ { n } = \max _ { i } \left\{ \left| S _ { i + \frac { 1 } { 2 } } ^ { \mathrm { L } } \right| , \left| S _ { i + \frac { 1 } { 2 } } ^ { \mathrm { R } } \right| \right\}</script><p>也可以采用：</p>
+<script type="math/tex; mode=display">
+S _ { \max } ^ { n } = \max _ { i } \left\{ \left| u _ { i } ^ { n } \right| + a _ { i } ^ { n } \right\}</script><p>但是可能不稳定。因此<strong>前面五步dt要乘0.2</strong>.</p>
+</li>
+<li><p>设置边界条件：计算flux时边界为：$\mathbf { F } _ { \frac { 1 } { 2 } }$和$\mathbf { F } _ { M + \frac { 1 } { 2 } }$，当计算第一个cell和最后一个cell（第$M$个）分别要用到。如果计算时间足够短，使左右波没有传到计算域的边界（这样，左右边界条件就可以采用左右状态的初始值。当然计算时间长的时候，可以考虑两种边界</p>
+<ul>
+<li>reflective boundaries</li>
+<li>transmissive boundaries</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2019/04/11/Finite-volume-implemented-by-MATLAB/1555035662477.png" alt=""></p>
+<p>效果示例（Test 1 in Toro’s book）：</p>
+<p><img src="/2019/04/11/Finite-volume-implemented-by-MATLAB/godunov.gif" alt=""></p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br></pre></td><td class="code"><pre><span class="line">clear all;clc;</span><br><span class="line"><span class="comment">%% Description </span></span><br><span class="line"><span class="comment">% Godunov schme of Finite Volume Method with exact Riemann Solver</span></span><br><span class="line"><span class="comment">% Programmer: Ga Zhang</span></span><br><span class="line"><span class="comment">% Insitituion: Tsinghua University</span></span><br><span class="line"></span><br><span class="line"><span class="comment">%% Define the global variables</span></span><br><span class="line"><span class="keyword">global</span> <span class="built_in">gamma</span> TOL dx NX NT X T X_MIN X_MAX C_cfl gamma2 gamma3 gamma4 gamma5 gamma6 gamma7 gamma8 MAX_ITER x0 CASE</span><br><span class="line"><span class="built_in">gamma</span> = <span class="number">1.4</span>;</span><br><span class="line">TOL = <span class="number">1e-06</span>;</span><br><span class="line">NX = <span class="number">300</span>; <span class="comment">% number of cells of x</span></span><br><span class="line">NT = <span class="number">1e04</span>; <span class="comment">% number of max time steps</span></span><br><span class="line">C_cfl = <span class="number">0.9</span>; <span class="comment">% Courant or CFL coefficient, should be in 0~1</span></span><br><span class="line">MAX_ITER = NX; <span class="comment">% maximum iteration times of Newton Iteration</span></span><br><span class="line">x0 = <span class="number">0.5</span>; <span class="comment">% Default position of the gap. One can change the value with the IVP() function</span></span><br><span class="line">T = <span class="number">0.2</span>;</span><br><span class="line">CASE = <span class="number">1</span>; <span class="comment">% Choose the test case (1 to 5). </span></span><br><span class="line"><span class="comment">% gamma related constants</span></span><br><span class="line">gamma2 = <span class="built_in">gamma</span> - <span class="number">1</span>;</span><br><span class="line">gamma3 = (<span class="built_in">gamma</span> - <span class="number">1</span>) / <span class="number">2</span> / <span class="built_in">gamma</span>;</span><br><span class="line">gamma4 = (<span class="number">2</span> * <span class="built_in">gamma</span>) / (<span class="built_in">gamma</span> - <span class="number">1</span>);</span><br><span class="line">gamma5 = (<span class="built_in">gamma</span> + <span class="number">1</span>) / <span class="number">2</span> / <span class="built_in">gamma</span>;</span><br><span class="line">gamma6 = (<span class="built_in">gamma</span> - <span class="number">1</span>) / (<span class="built_in">gamma</span> + <span class="number">1</span>);</span><br><span class="line">gamma7 = <span class="number">2</span> / (<span class="built_in">gamma</span> + <span class="number">1</span>);</span><br><span class="line">gamma8 = <span class="number">2</span> / (<span class="built_in">gamma</span> - <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">dx = <span class="number">0.01</span>;</span><br><span class="line">X_MIN = <span class="number">0</span>; <span class="comment">% left boundary of x</span></span><br><span class="line">X_MAX = <span class="number">1</span>; <span class="comment">% right boundary of x</span></span><br><span class="line">X = <span class="built_in">linspace</span>(X_MIN+dx/<span class="number">2</span>, X_MAX-dx/<span class="number">2</span>, NX);</span><br><span class="line">dx = (X_MAX - X_MIN) / NX;</span><br><span class="line">U = <span class="built_in">zeros</span>(NX, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">%% main process</span></span><br><span class="line">U = IVP(); <span class="comment">% initialize U</span></span><br><span class="line">U_L0 = U(<span class="number">1</span>, :);</span><br><span class="line">U_R0 = U(<span class="keyword">end</span>,:);</span><br><span class="line"></span><br><span class="line">Nexact=<span class="number">1000</span>;         <span class="comment">% number of exact solutions</span></span><br><span class="line">Xexact=<span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">1</span>,Nexact+<span class="number">1</span>);</span><br><span class="line">W_exact = <span class="built_in">zeros</span>(Nexact, <span class="number">3</span>);</span><br><span class="line">U_exact = <span class="built_in">zeros</span>(Nexact, <span class="number">3</span>);</span><br><span class="line">U_exact(Xexact&lt;=x0,:) = <span class="built_in">ones</span>(sum(Xexact&lt;=x0),<span class="number">1</span>) * U_L0;</span><br><span class="line">U_exact(Xexact&gt;x0,:) = <span class="built_in">ones</span>(sum(Xexact&gt;x0),<span class="number">1</span>) * U_R0;</span><br><span class="line">t = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> n=<span class="number">1</span>:NT <span class="comment">% start time march</span></span><br><span class="line">    Un = U; <span class="comment">% copy old u</span></span><br><span class="line">    rho = U(:,<span class="number">1</span>);</span><br><span class="line">    u = U(:,<span class="number">2</span>) ./ rho;</span><br><span class="line">    E = U(:,<span class="number">3</span>);   </span><br><span class="line">    p = (<span class="built_in">gamma</span> - <span class="number">1</span>) * (E - <span class="number">1</span>/ <span class="number">2</span> *rho.* u.^<span class="number">2</span>);</span><br><span class="line">    Smax=<span class="built_in">max</span>(<span class="built_in">abs</span>(u)+<span class="built_in">sqrt</span>(<span class="built_in">gamma</span>*p./rho));</span><br><span class="line"></span><br><span class="line">    <span class="comment">% calculate the solution of godunov scheme</span></span><br><span class="line">    W = <span class="built_in">zeros</span>([NX+<span class="number">1</span>,<span class="number">3</span>]); <span class="comment">% W at the interfaces (NX+1 interfaces fhor NX cells altogether)</span></span><br><span class="line">    F = <span class="built_in">zeros</span>([NX+<span class="number">1</span>,<span class="number">3</span>]); <span class="comment">% flux at the interfaces</span></span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:NX+<span class="number">1</span> </span><br><span class="line">        <span class="comment">% start x march</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">i</span> == <span class="number">1</span></span><br><span class="line">            <span class="comment">% left boundary condition is set as the initial condition</span></span><br><span class="line">            Wi = riemann_solver(U_L0,  Un(<span class="built_in">i</span>,:), <span class="number">0</span>);</span><br><span class="line">            [Ui, Fi] = W2UandF(Wi);</span><br><span class="line">            W(<span class="built_in">i</span>,:) = Wi;</span><br><span class="line">            F(<span class="built_in">i</span>,:) = Fi;</span><br><span class="line">        <span class="keyword">elseif</span> <span class="built_in">i</span>==NX+<span class="number">1</span></span><br><span class="line">            <span class="comment">% right boundary condition is set as the initial condition</span></span><br><span class="line">            Wi = riemann_solver(Un(<span class="built_in">i</span><span class="number">-1</span>, :), U_R0, <span class="number">0</span>);</span><br><span class="line">            W(<span class="built_in">i</span>,:) = Wi;</span><br><span class="line">            F(<span class="built_in">i</span>,:) = Fi;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            Wi = riemann_solver(Un(<span class="built_in">i</span><span class="number">-1</span>, :), Un(<span class="built_in">i</span>, :), <span class="number">0</span>);</span><br><span class="line">            [Ui, Fi] = W2UandF(Wi);  </span><br><span class="line">            W(<span class="built_in">i</span>,:) = Wi;</span><br><span class="line">            F(<span class="built_in">i</span>,:) = Fi;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        dt=C_cfl*dx/Smax;</span><br><span class="line">        <span class="keyword">if</span> n&lt;<span class="number">5</span></span><br><span class="line">            dt=dt*<span class="number">0.2</span>;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">if</span> t + dt &gt; T</span><br><span class="line">        dt = T - t;</span><br><span class="line">        t = T;</span><br><span class="line">        U = Un - dt / dx * (F(<span class="number">2</span>:<span class="keyword">end</span>,:)- F(<span class="number">1</span>:<span class="keyword">end</span><span class="number">-1</span>,:));</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        t = t + dt;</span><br><span class="line">        fprintf(<span class="string">'Percentage of time marched %f\n'</span>, t/T);</span><br><span class="line">        <span class="built_in">disp</span>(t/T);</span><br><span class="line">        U = Un - dt / dx * (F(<span class="number">2</span>:<span class="keyword">end</span>,:)- F(<span class="number">1</span>:<span class="keyword">end</span><span class="number">-1</span>,:));</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% calculate exact solution</span></span><br><span class="line">Sexact=(Xexact-x0)/T;</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:Nexact+<span class="number">1</span></span><br><span class="line">    W_exact(<span class="built_in">i</span>, :) = riemann_solver(U_L0, U_R0, Sexact(<span class="built_in">i</span>));</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">rho = U(:,<span class="number">1</span>);</span><br><span class="line">u = U(:,<span class="number">2</span>) ./ rho;</span><br><span class="line">E = U(:,<span class="number">3</span>);   </span><br><span class="line">p = (<span class="built_in">gamma</span> - <span class="number">1</span>) * (E - <span class="number">1</span>/ <span class="number">2</span> *rho.* u.^<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">rho_exact = W_exact(:,<span class="number">1</span>);</span><br><span class="line">u_exact = W_exact(:,<span class="number">2</span>);</span><br><span class="line">p_exact = W_exact(:,<span class="number">3</span>);   </span><br><span class="line">E_exact = p_exact / (<span class="built_in">gamma</span> <span class="number">-1</span>) + <span class="number">1</span> / <span class="number">2</span> * rho_exact .* u_exact.^<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">%% plot figure</span></span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(X, <span class="built_in">reshape</span>(rho, [<span class="number">1</span>, NX]), <span class="string">'.'</span>, <span class="string">'color'</span>, [<span class="number">216</span>, <span class="number">50</span>, <span class="number">48</span>]/<span class="number">256</span>, <span class="string">'DisplayName'</span>,<span class="string">'Numerical solution'</span>);</span><br><span class="line"><span class="built_in">hold</span> on;</span><br><span class="line"><span class="built_in">plot</span>(Xexact, <span class="built_in">reshape</span>(W_exact(:,<span class="number">1</span>), [<span class="number">1</span>, Nexact+<span class="number">1</span>]), <span class="string">'color'</span>, <span class="string">'green'</span>, <span class="string">'DisplayName'</span>,<span class="string">'Exact solution'</span>);</span><br><span class="line">xlabel(<span class="string">'x'</span>);</span><br><span class="line">ylabel(<span class="string">'Density'</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>);</span><br><span class="line"><span class="built_in">plot</span>(X, <span class="built_in">reshape</span>(u, [<span class="number">1</span>, NX]), <span class="string">'.'</span>, <span class="string">'color'</span>, [<span class="number">216</span>, <span class="number">50</span>, <span class="number">48</span>]/<span class="number">256</span>, <span class="string">'DisplayName'</span>,<span class="string">'Numerical solution'</span>);</span><br><span class="line"><span class="built_in">hold</span> on;</span><br><span class="line"><span class="built_in">plot</span>(Xexact, <span class="built_in">reshape</span>(W_exact(:,<span class="number">2</span>), [<span class="number">1</span>, Nexact+<span class="number">1</span>]), <span class="string">'color'</span>, <span class="string">'green'</span>, <span class="string">'DisplayName'</span>,<span class="string">'Exact solution'</span>);</span><br><span class="line">xlabel(<span class="string">'x'</span>);</span><br><span class="line">ylabel(<span class="string">'Velocity'</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>);</span><br><span class="line"><span class="built_in">plot</span>(X, <span class="built_in">reshape</span>(p, [<span class="number">1</span>, NX]), <span class="string">'.'</span>, <span class="string">'color'</span>, [<span class="number">216</span>, <span class="number">50</span>, <span class="number">48</span>]/<span class="number">256</span>, <span class="string">'DisplayName'</span>,<span class="string">'Numerical solution'</span>);</span><br><span class="line"><span class="built_in">hold</span> on;</span><br><span class="line"><span class="built_in">plot</span>(Xexact, <span class="built_in">reshape</span>(W_exact(:,<span class="number">3</span>), [<span class="number">1</span>, Nexact+<span class="number">1</span>]), <span class="string">'color'</span>, <span class="string">'green'</span>, <span class="string">'DisplayName'</span>,<span class="string">'Exact solution'</span>);</span><br><span class="line">xlabel(<span class="string">'x'</span>);</span><br><span class="line">ylabel(<span class="string">'Pressure'</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>);</span><br><span class="line"><span class="built_in">plot</span>(X, <span class="built_in">reshape</span>(E, [<span class="number">1</span>, NX]), <span class="string">'.'</span>, <span class="string">'color'</span>, [<span class="number">216</span>, <span class="number">50</span>, <span class="number">48</span>]/<span class="number">256</span>, <span class="string">'DisplayName'</span>,<span class="string">'Numerical solution'</span>);</span><br><span class="line"><span class="built_in">hold</span> on;</span><br><span class="line"><span class="built_in">plot</span>(Xexact, <span class="built_in">reshape</span>(E_exact, [<span class="number">1</span>, Nexact+<span class="number">1</span>]), <span class="string">'color'</span>, <span class="string">'green'</span>, <span class="string">'DisplayName'</span>,<span class="string">'Exact solution'</span>);</span><br><span class="line">xlabel(<span class="string">'x'</span>);</span><br><span class="line">ylabel(<span class="string">'Energy'</span>);</span><br><span class="line"></span><br><span class="line">saveas(gcf,sprintf(<span class="string">'test%d_NX%d.emf'</span>, CASE, NX));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">%% Riemann Solver</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">W</span>=<span class="title">riemann_solver</span><span class="params">(U_L, U_R, S)</span></span></span><br><span class="line">    <span class="keyword">global</span> TOL rho_L u_L E_L p_L W_L a_L rho_R u_R E_R p_R W_R a_R C_cfl dx...</span><br><span class="line">           <span class="built_in">gamma</span> gamma2 gamma3 gamma4 gamma5 gamma6 gamma7 gamma8 MAX_ITER</span><br><span class="line">    rho_L = U_L(<span class="number">1</span>);</span><br><span class="line">    u_L = U_L(<span class="number">2</span>) / rho_L;</span><br><span class="line">    E_L = U_L(<span class="number">3</span>);   </span><br><span class="line">    p_L = (<span class="built_in">gamma</span> - <span class="number">1</span>) * (E_L - <span class="number">1</span>/ <span class="number">2</span>*rho_L * u_L^<span class="number">2</span>);</span><br><span class="line">    a_L = <span class="built_in">sqrt</span>(<span class="built_in">gamma</span> * p_L / rho_L);</span><br><span class="line">    W_L = [rho_L, u_L, p_L];</span><br><span class="line">    </span><br><span class="line">    rho_R = U_R(<span class="number">1</span>);</span><br><span class="line">    u_R = U_R(<span class="number">2</span>) / rho_R;</span><br><span class="line">    E_R = U_R(<span class="number">3</span>);</span><br><span class="line">    p_R = (<span class="built_in">gamma</span> - <span class="number">1</span>) * (E_R - <span class="number">1</span>/ <span class="number">2</span> * rho_R*u_R^<span class="number">2</span>);</span><br><span class="line">    a_R = <span class="built_in">sqrt</span>(<span class="built_in">gamma</span> * p_R / rho_R);</span><br><span class="line">    W_R = [rho_R, u_R, p_R];</span><br><span class="line">    p0 = getP0(<span class="number">3</span>);</span><br><span class="line">    k = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="built_in">true</span></span><br><span class="line">        <span class="keyword">if</span> k == <span class="number">0</span></span><br><span class="line">            p_k = p0;</span><br><span class="line">            k = k + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            p_old = p_k;</span><br><span class="line">            f = calc_f(p_k, W_L, W_R);</span><br><span class="line">            diff_f = calc_diff_f(p_k, W_L, W_R);</span><br><span class="line">            p_k = p_k - f / diff_f;</span><br><span class="line">            k = k + <span class="number">1</span>;</span><br><span class="line">            CHA = <span class="number">2</span> * <span class="built_in">abs</span>(p_old - p_k) / (p_old + p_k);</span><br><span class="line">            <span class="keyword">if</span> (CHA &gt; TOL) &amp; (k &gt; MAX_ITER)</span><br><span class="line">                error(<span class="string">'Newton Iteration exceeds maximum iteration times!\n'</span>)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">            <span class="keyword">if</span> CHA &lt; TOL</span><br><span class="line">                p_star = p_k;</span><br><span class="line">                u_star = <span class="number">1</span>/<span class="number">2</span> * (u_L + u_R) + <span class="number">1</span>/<span class="number">2</span> * (calc_f_K(p_star, W_R) - calc_f_K(p_star, W_L));</span><br><span class="line">                <span class="comment">% fprintf('WL')</span></span><br><span class="line">                <span class="comment">% disp(W_L);</span></span><br><span class="line">                <span class="comment">% fprintf('WR')</span></span><br><span class="line">                <span class="comment">% disp(W_R);</span></span><br><span class="line">                <span class="comment">% fprintf('k=%d p_star=%f u_star=%f \n',k,p_star, u_star);</span></span><br><span class="line">              <span class="comment">%% now calculate W at S=x/t</span></span><br><span class="line">              <span class="comment">% this part can be referred from Fig4.14 (page 138) in Toro book</span></span><br><span class="line">                <span class="keyword">if</span> S &lt; u_star <span class="comment">% left side of Contact</span></span><br><span class="line">                    <span class="keyword">if</span> p_star &gt; p_L <span class="comment">% left shock</span></span><br><span class="line">                        <span class="comment">% now we should calculate S_L</span></span><br><span class="line">                        <span class="comment">% see Equation 4.52 in Toros book</span></span><br><span class="line">                        S_L = u_L - a_L * (gamma5 * p_star / p_L + gamma3) ^ <span class="number">0.5</span>;</span><br><span class="line">                        rho_star_L = rho_L * (p_star/p_L + gamma6) / (gamma6 * p_star / p_L + <span class="number">1</span>);</span><br><span class="line">                        <span class="keyword">if</span> S &lt; S_L</span><br><span class="line">                            W = W_L;</span><br><span class="line">                        <span class="keyword">else</span></span><br><span class="line">                            W = [rho_star_L, u_star, p_star];</span><br><span class="line">                        <span class="keyword">end</span></span><br><span class="line">                    <span class="keyword">else</span> </span><br><span class="line">                        <span class="comment">% left rarefraction</span></span><br><span class="line">                        <span class="comment">% calculate S_HL and S_TL</span></span><br><span class="line">                        <span class="comment">% Equation 4.53 to 4.55 in Toros book</span></span><br><span class="line">                        rho_star_L = rho_L * (p_star / p_L) ^ (<span class="number">1</span>/<span class="built_in">gamma</span>);</span><br><span class="line">                        a_star_L = a_L * (p_star / p_L) ^ gamma3;</span><br><span class="line">                        S_HL = u_L - a_L;</span><br><span class="line">                        S_TL = u_star - a_star_L;</span><br><span class="line">                        <span class="keyword">if</span> S &lt; S_HL</span><br><span class="line">                            W = W_L;</span><br><span class="line">                        <span class="keyword">else</span></span><br><span class="line">                            <span class="keyword">if</span> S &gt; S_TL</span><br><span class="line">                                W = [rho_star_L, u_star, p_star];</span><br><span class="line">                            <span class="keyword">else</span></span><br><span class="line">                                <span class="comment">% W = W_Lfan</span></span><br><span class="line">                                <span class="comment">% from Equation 4.56</span></span><br><span class="line">                                rho_Lfan = rho_L * (gamma7 + gamma6 / a_L * (u_L - S)) ^ gamma8;</span><br><span class="line">                                u_Lfan = gamma7 * (a_L + (<span class="built_in">gamma</span> <span class="number">-1</span> )/<span class="number">2</span> * u_L + S);</span><br><span class="line">                                p_Lfan = p_L *(gamma7 + gamma6 / a_L * (u_L-S))^gamma4;</span><br><span class="line">                                W = [rho_Lfan, u_Lfan, p_Lfan];</span><br><span class="line">                            <span class="keyword">end</span></span><br><span class="line">                        <span class="keyword">end</span></span><br><span class="line">                    <span class="keyword">end</span></span><br><span class="line">                <span class="keyword">else</span> </span><br><span class="line">                    <span class="comment">% right side of Contact: S = x/t&gt;=u_star</span></span><br><span class="line">                    <span class="keyword">if</span> p_star &gt; p_R </span><br><span class="line">                        <span class="comment">% right shock</span></span><br><span class="line">                        <span class="comment">% now we should calculate S_R</span></span><br><span class="line">                        <span class="comment">% see Equation 4.59 in Toros book</span></span><br><span class="line">                        S_R = u_R + a_R * (gamma5 * p_star / p_R + gamma3) ^ <span class="number">0.5</span>;</span><br><span class="line">                        rho_star_R = rho_R * (p_star/p_R + gamma6) / (gamma6 * p_star / p_R + <span class="number">1</span>);</span><br><span class="line">                        <span class="keyword">if</span> S&lt;S_R</span><br><span class="line">                            W = [rho_star_R, u_star, p_star];</span><br><span class="line">                        <span class="keyword">else</span></span><br><span class="line">                            W = W_R;</span><br><span class="line">                        <span class="keyword">end</span></span><br><span class="line">                    <span class="keyword">else</span> </span><br><span class="line">                        <span class="comment">% right rarefraction</span></span><br><span class="line">                        <span class="comment">% calculate S_HR and S_TR</span></span><br><span class="line">                        <span class="comment">% Equation 4.62 in Toros book</span></span><br><span class="line">                        rho_star_R = rho_R * (p_star / p_R) ^ (<span class="number">1</span>/<span class="built_in">gamma</span>);</span><br><span class="line">                        a_star_R = a_R * (p_star / p_R) ^ gamma3;</span><br><span class="line">                        S_HR = u_R + a_R;</span><br><span class="line">                        S_TR = u_star + a_star_R;</span><br><span class="line">                        <span class="keyword">if</span> S &lt; S_TR </span><br><span class="line">                            <span class="comment">% right fan</span></span><br><span class="line">                            W = [rho_star_R, u_star, p_star];</span><br><span class="line">                        <span class="keyword">else</span></span><br><span class="line">                            <span class="keyword">if</span> S&lt;S_HR</span><br><span class="line">                                <span class="comment">% right rarefraction fan</span></span><br><span class="line">                                rho_Rfan = rho_R * (gamma7 - gamma6 / a_R * (u_R - S)) ^ (gamma8);</span><br><span class="line">                                u_Rfan = gamma7 * (-a_R + (<span class="built_in">gamma</span><span class="number">-1</span>)/<span class="number">2</span> * u_R + S);</span><br><span class="line">                                p_Rfan = p_R * (gamma7 - gamma6 / a_R * (u_R - S))^gamma4;</span><br><span class="line">                                W = [rho_Rfan, u_Rfan, p_Rfan];</span><br><span class="line">                            <span class="keyword">else</span></span><br><span class="line">                                <span class="comment">% right area</span></span><br><span class="line">                                W = W_R;</span><br><span class="line">                            <span class="keyword">end</span></span><br><span class="line">                        <span class="keyword">end</span></span><br><span class="line">                    <span class="keyword">end</span></span><br><span class="line">                <span class="keyword">end</span></span><br><span class="line"><span class="comment">% </span></span><br><span class="line"><span class="comment">%                 % now calculate the time step</span></span><br><span class="line"><span class="comment">%                 if p_star&gt;p_L </span></span><br><span class="line"><span class="comment">%                     % left shock</span></span><br><span class="line"><span class="comment">%                     % now we should calculate S_L</span></span><br><span class="line"><span class="comment">%                     % see Equation 4.52 in Toros book</span></span><br><span class="line"><span class="comment">% %                     fprintf('left shock\n');</span></span><br><span class="line"><span class="comment">%                     rho_star_L = rho_L * (p_star/p_L + gamma6) / (gamma6 * p_star / p_L + 1);</span></span><br><span class="line"><span class="comment">%                     S_L = u_L - a_L * (gamma5 * p_star / p_L + gamma3) ^ 0.5;</span></span><br><span class="line"><span class="comment">%                     S_i_plus_half_L = S_L;</span></span><br><span class="line"><span class="comment">%                     % fprintf('rho_star_L\n %f', rho_star_L);</span></span><br><span class="line"><span class="comment">%                 else</span></span><br><span class="line"><span class="comment">%                     % left rarefraction</span></span><br><span class="line"><span class="comment">%                     % calculate S_HL</span></span><br><span class="line"><span class="comment">%                     % see equation 4.53 to 4.55 in Toros book</span></span><br><span class="line"><span class="comment">% %                     fprintf('left rarefraction\n');</span></span><br><span class="line"><span class="comment">%                     rho_star_L = rho_L * (p_star / p_L) ^ (1/gamma);</span></span><br><span class="line"><span class="comment">%                     a_star_L = a_L * (p_star / p_L) ^ gamma3;</span></span><br><span class="line"><span class="comment">%                     S_HL = u_L - a_L;</span></span><br><span class="line"><span class="comment">%                     S_i_plus_half_L = S_HL;</span></span><br><span class="line"><span class="comment">%                     % fprintf('rho_star_L\n %f', rho_star_L);</span></span><br><span class="line"><span class="comment">%                 end</span></span><br><span class="line"><span class="comment">%                 if p_star &gt; p_R </span></span><br><span class="line"><span class="comment">%                     % right shock</span></span><br><span class="line"><span class="comment">%                     % now we should calculate S_R</span></span><br><span class="line"><span class="comment">%                     % see Equation 4.59 in Toros book</span></span><br><span class="line"><span class="comment">% %                     fprintf('right shock\n');</span></span><br><span class="line"><span class="comment">% </span></span><br><span class="line"><span class="comment">%                     S_R = u_R + a_R * (gamma5 * p_star / p_R + gamma3) ^ 0.5;</span></span><br><span class="line"><span class="comment">%                     S_i_plus_half_R = S_R;</span></span><br><span class="line"><span class="comment">%                     rho_star_R = rho_R * (p_star/p_R + gamma6) / (gamma6 * p_star / p_R + 1);</span></span><br><span class="line"><span class="comment">%                     % fprintf('rho_star_R\n %f', rho_star_R)</span></span><br><span class="line"><span class="comment">%                 else</span></span><br><span class="line"><span class="comment">%                     % right rarefraction</span></span><br><span class="line"><span class="comment">%                     % calculate S_HR</span></span><br><span class="line"><span class="comment">%                     % see equation 4.62 in Toros book</span></span><br><span class="line"><span class="comment">% %                     fprintf('right rarefraction\n');</span></span><br><span class="line"><span class="comment">%                     S_HR = u_R + a_R;</span></span><br><span class="line"><span class="comment">%                     S_i_plus_half_R = S_HR;</span></span><br><span class="line"><span class="comment">%                     rho_star_R = rho_R * (p_star / p_R) ^ (1/gamma);</span></span><br><span class="line"><span class="comment">%                     % fprintf('rho_star_R\n %f', rho_star_R)</span></span><br><span class="line"><span class="comment">% </span></span><br><span class="line"><span class="comment">%                 end</span></span><br><span class="line"><span class="comment">%                 S_max = max(abs(S_i_plus_half_L), abs(S_i_plus_half_R));</span></span><br><span class="line"><span class="comment">%                 dt = C_cfl * dx / S_max;</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">f_K</span> = <span class="title">calc_f_K</span><span class="params">(p_star, W_K)</span></span></span><br><span class="line">    <span class="comment">% calc f_K(p_star, W_K). K can be L or R</span></span><br><span class="line">        rho_K = W_K(<span class="number">1</span>);</span><br><span class="line">        u_K = W_K(<span class="number">2</span>);</span><br><span class="line">        p_K = W_K(<span class="number">3</span>);</span><br><span class="line">        A_K = <span class="number">2.0</span> / (<span class="built_in">gamma</span> + <span class="number">1</span>) / rho_K;</span><br><span class="line">        B_K = (<span class="built_in">gamma</span> - <span class="number">1</span>) / (<span class="built_in">gamma</span> + <span class="number">1</span>) * p_K;</span><br><span class="line">        a_K = <span class="built_in">sqrt</span>(<span class="built_in">gamma</span> * p_K / rho_K);</span><br><span class="line">        <span class="keyword">if</span> p_star &gt; p_K</span><br><span class="line">            f_K = (p_star - p_K) * <span class="built_in">sqrt</span>(A_K / (p_star + B_K));</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            f_K = <span class="number">2</span> * a_K / (<span class="built_in">gamma</span> - <span class="number">1</span>) * ((p_star / p_K) ^ ((<span class="built_in">gamma</span><span class="number">-1</span>)/<span class="number">2</span>/<span class="built_in">gamma</span>)<span class="number">-1</span>);</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">f</span> = <span class="title">calc_f</span><span class="params">(p_star, W_L, W_R)</span></span></span><br><span class="line">    <span class="comment">% calc f(p_star, W_L, W_R)</span></span><br><span class="line">        f_L = calc_f_K(p_star, W_L);</span><br><span class="line">        f_R = calc_f_K(p_star, W_R);</span><br><span class="line">        f = f_L + f_R + (W_R(<span class="number">2</span>) - W_L(<span class="number">2</span>));</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">diff_fK</span> = <span class="title">calc_diff_fK</span><span class="params">(p_star, W_K)</span></span></span><br><span class="line">    <span class="comment">% calc diff_fK(p_star, W_K). K can be L or R</span></span><br><span class="line">        rho_K = W_K(<span class="number">1</span>);</span><br><span class="line">        u_K = W_K(<span class="number">2</span>);</span><br><span class="line">        p_K = W_K(<span class="number">3</span>);</span><br><span class="line">        A_K = <span class="number">2.0</span> / (<span class="built_in">gamma</span> + <span class="number">1</span>) / rho_K;</span><br><span class="line">        B_K = (<span class="built_in">gamma</span> - <span class="number">1</span>) / (<span class="built_in">gamma</span> + <span class="number">1</span>) * p_K;</span><br><span class="line">        a_K = <span class="built_in">sqrt</span>(<span class="built_in">gamma</span> * p_K / rho_K);</span><br><span class="line">        <span class="keyword">if</span> p_star &gt; p_K</span><br><span class="line">            diff_fK = (<span class="number">1</span> - (p_star - p_K) / <span class="number">2</span>/ (B_K + p_star)) * <span class="built_in">sqrt</span>(A_K / (p_star + B_K));</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            diff_fK = <span class="number">1</span> / rho_K / a_K * (p_star / p_K) ^ (-(<span class="built_in">gamma</span> + <span class="number">1</span>) / <span class="number">2</span> / <span class="built_in">gamma</span>);</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">diff_f</span> = <span class="title">calc_diff_f</span><span class="params">(p_star, W_L, W_R)</span></span></span><br><span class="line">    <span class="comment">% calc diff_f(p_star, W_L, WR)</span></span><br><span class="line">        diff_f  = calc_diff_fK(p_star, W_L) + calc_diff_fK(p_star, W_R);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">p0</span> = <span class="title">getP0</span><span class="params">(method)</span></span></span><br><span class="line">    <span class="comment">% Get p0 for the iteration</span></span><br><span class="line">    <span class="comment">% Four kinds of guesses of p0 provieded (details in Toros book), use the method to select.</span></span><br><span class="line">    <span class="comment">% method 1: two-rarefraction approximation</span></span><br><span class="line">    <span class="comment">% method 2: a linearised solution based on primitive variables</span></span><br><span class="line">    <span class="comment">% method 3: Two?CShock approximation</span></span><br><span class="line">    <span class="comment">% method 4: arithmetic mean of the data</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">%% calc the variables</span></span><br><span class="line">        A_L = <span class="number">2.0</span> / (<span class="built_in">gamma</span> + <span class="number">1</span>) / rho_L;</span><br><span class="line">        B_L = (<span class="built_in">gamma</span> - <span class="number">1</span>) / (<span class="built_in">gamma</span> + <span class="number">1</span>) * p_L;</span><br><span class="line">        A_R = <span class="number">2.0</span> / (<span class="built_in">gamma</span> + <span class="number">1</span>) / rho_R;</span><br><span class="line">        B_R = (<span class="built_in">gamma</span> - <span class="number">1</span>) / (<span class="built_in">gamma</span> + <span class="number">1</span>) * p_R;</span><br><span class="line">        <span class="comment">%% switch method</span></span><br><span class="line">        <span class="keyword">if</span> method == <span class="number">1</span></span><br><span class="line">            p_TR = ((a_L + a_R - <span class="number">1</span>/<span class="number">2</span> *gamma2 * (u_R-u_L)) / (a_L / p_L^gamma3+ a_R / p_R^gamma3)) ^ gamma4;</span><br><span class="line">            p0 = p_TR;</span><br><span class="line">        <span class="keyword">elseif</span> method == <span class="number">2</span></span><br><span class="line">            p_PV = <span class="number">1</span>/<span class="number">2</span> * (p_L + p_R) - <span class="number">1</span>/<span class="number">8</span>*(u_R - u_L) * (rho_L + rho_R) * (a_L + a_R);</span><br><span class="line">            p0 = <span class="built_in">max</span>(TOL, p_PV);</span><br><span class="line">        <span class="keyword">elseif</span> method == <span class="number">3</span></span><br><span class="line">            p_PV = <span class="number">1</span>/<span class="number">2</span> * (p_L + p_R) - <span class="number">1</span>/<span class="number">8</span>*(u_R - u_L) * (rho_L + rho_R) * (a_L + a_R);</span><br><span class="line">            p_hat = <span class="built_in">max</span>(TOL, p_PV);</span><br><span class="line">            g_L = <span class="built_in">sqrt</span>((A_L / (p_hat + B_L)));</span><br><span class="line">            g_R = <span class="built_in">sqrt</span>((A_R / (p_hat + B_R)));</span><br><span class="line">            p_TS = (g_L * p_L + g_R * p_R - (u_R - u_L)) / (g_L + g_R);</span><br><span class="line">            p0 = <span class="built_in">max</span>(TOL, p_TS);   </span><br><span class="line">        <span class="keyword">elseif</span> method == <span class="number">4</span></span><br><span class="line">            p0  = <span class="number">1</span>/<span class="number">2</span> * (p_L + p_R);</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[U, F]</span> = <span class="title">W2UandF</span><span class="params">(W)</span></span></span><br><span class="line"><span class="keyword">global</span> <span class="built_in">gamma</span>;</span><br><span class="line">    rho = W(<span class="number">1</span>);</span><br><span class="line">    u = W(<span class="number">2</span>);</span><br><span class="line">    p = W(<span class="number">3</span>);</span><br><span class="line">    E = p / (<span class="built_in">gamma</span> - <span class="number">1</span>) + <span class="number">1</span>/<span class="number">2</span> * rho * u^<span class="number">2</span>;</span><br><span class="line">    U = [rho, rho*u, E];</span><br><span class="line">    f1 = rho*u;</span><br><span class="line">    f2 = f1 * u +p;</span><br><span class="line">    f3 = (<span class="number">0.5</span> * f1 * u + p/(<span class="built_in">gamma</span><span class="number">-1</span>)+p)*u;</span><br><span class="line">    F = [f1, f2, f3];   </span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">%% Initial Variable Parameter</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">U</span> = <span class="title">IVP</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">global</span> <span class="built_in">gamma</span> NX X dx x0 CASE T</span><br><span class="line">    <span class="comment">%% Test 1</span></span><br><span class="line">    <span class="keyword">if</span> CASE == <span class="number">1</span></span><br><span class="line">        [rho_L, u_L, p_L, rho_R, u_R, p_R, x0, T] = deal(<span class="number">1.0</span>, <span class="number">0.75</span>, <span class="number">1.0</span>, <span class="number">0.125</span>, <span class="number">0.0</span>, <span class="number">0.1</span>, <span class="number">0.3</span>, <span class="number">0.2</span>);</span><br><span class="line">    <span class="keyword">elseif</span> CASE == <span class="number">2</span></span><br><span class="line">        [rho_L, u_L, p_L, rho_R, u_R, p_R, x0, T ] = deal(<span class="number">1.0</span>, <span class="number">-2.0</span>, <span class="number">0.4</span>, <span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">0.4</span>, <span class="number">0.5</span>, <span class="number">0.15</span>);</span><br><span class="line">    <span class="keyword">elseif</span> CASE == <span class="number">3</span></span><br><span class="line">        [rho_L, u_L, p_L, rho_R, u_R, p_R , x0, T] = deal(<span class="number">1.0</span>, <span class="number">0.0</span>, <span class="number">1000.0</span>, <span class="number">1.0</span>, <span class="number">0.0</span>, <span class="number">0.01</span>, <span class="number">0.5</span>, <span class="number">0.012</span>);</span><br><span class="line">    <span class="keyword">elseif</span> CASE == <span class="number">4</span></span><br><span class="line">        [rho_L, u_L, p_L, rho_R, u_R, p_R , x0, T] = deal(<span class="number">5.99924</span>, <span class="number">19.5975</span>, <span class="number">460.894</span>, <span class="number">5.99924</span>, <span class="number">-6.19633</span>, <span class="number">46.095</span>, <span class="number">0.4</span>, <span class="number">0.035</span>);</span><br><span class="line">    <span class="keyword">elseif</span> CASE == <span class="number">5</span></span><br><span class="line">        [rho_L, u_L, p_L, rho_R, u_R, p_R , x0, T] = deal(<span class="number">1.0</span>, <span class="number">-19.59745</span>, <span class="number">1000.0</span>, <span class="number">1.0</span>, <span class="number">-19.59745</span>, <span class="number">0.01</span>, <span class="number">0.8</span>, <span class="number">0.012</span>); </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    E_L = p_L / (<span class="built_in">gamma</span> <span class="number">-1</span>) + <span class="number">1</span> / <span class="number">2</span> * rho_L * u_L^<span class="number">2</span>;</span><br><span class="line">    E_R = p_R / (<span class="built_in">gamma</span> <span class="number">-1</span>) + <span class="number">1</span> / <span class="number">2</span> * rho_R * u_R^<span class="number">2</span>;</span><br><span class="line">    W_L = [rho_L, u_L, p_L];</span><br><span class="line">    W_R = [rho_R, u_R, p_R];</span><br><span class="line">    U_L = [rho_L, rho_L*u_L, E_L];</span><br><span class="line">    U_R = [rho_R, rho_R*u_R, E_R];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:NX</span><br><span class="line">        <span class="keyword">if</span> X(<span class="built_in">i</span>)&lt;= x0</span><br><span class="line">            U(<span class="built_in">i</span>,:) = U_L;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            U(<span class="built_in">i</span>,:) = U_R;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CFD/" rel="tag"># CFD</a>
+          
+            <a href="/tags/matlab/" rel="tag"># matlab</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/07/我的减肥记录/" rel="next" title="我的减肥记录">
+                <i class="fa fa-chevron-left"></i> 我的减肥记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">张玍</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Finite-Volume-Method-有限体积法"><span class="nav-number">1.</span> <span class="nav-text">Finite Volume Method 有限体积法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#控制体"><span class="nav-number">1.1.</span> <span class="nav-text">控制体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全离散"><span class="nav-number">1.2.</span> <span class="nav-text">全离散</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#半离散"><span class="nav-number">1.3.</span> <span class="nav-text">半离散</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#重构"><span class="nav-number">1.3.1.</span> <span class="nav-text">重构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演化"><span class="nav-number">1.3.2.</span> <span class="nav-text">演化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo-First-order-Upwind-Scheme-for-Burgers-Equation"><span class="nav-number">2.</span> <span class="nav-text">Demo: First-order Upwind Scheme for Burgers Equation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-method-of-Godunov-for-non-linear-systems"><span class="nav-number">3.</span> <span class="nav-text">The method of Godunov for non-linear systems</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bases"><span class="nav-number">3.1.</span> <span class="nav-text">Bases</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#First-version-of-Godunov’s-method"><span class="nav-number">3.2.</span> <span class="nav-text">First version of Godunov’s method:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Second-version-of-Godunov’s-method"><span class="nav-number">3.3.</span> <span class="nav-text">Second version of Godunov’s method</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Evaluation-of-the-intercell-fluxes"><span class="nav-number">3.3.1.</span> <span class="nav-text">Evaluation of the intercell fluxes</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张玍</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
