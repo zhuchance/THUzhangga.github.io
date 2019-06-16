@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux,HDF5,Fortran,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言Review了一篇文章，里面说HDF5具有高效I/O性能，于是也想尝试下。正好用Fortran写的CFD程序有变量的输出，这样就能同时把大数据和CFD的论文给搞定。">
+<meta name="keywords" content="Linux,HDF5,Fortran">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux平台使用HDF5与Fortran">
+<meta property="og:url" content="http://yoursite.com/2019/06/15/Linux平台使用HDF5与Fortran/index.html">
+<meta property="og:site_name" content="Ga&#39;s blog">
+<meta property="og:description" content="前言Review了一篇文章，里面说HDF5具有高效I/O性能，于是也想尝试下。正好用Fortran写的CFD程序有变量的输出，这样就能同时把大数据和CFD的论文给搞定。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/06/15/Linux平台使用HDF5与Fortran/1560672281050.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/15/Linux平台使用HDF5与Fortran/1560673029249.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/15/Linux平台使用HDF5与Fortran/1560674944417.png">
+<meta property="og:updated_time" content="2019-06-16T08:59:30.421Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux平台使用HDF5与Fortran">
+<meta name="twitter:description" content="前言Review了一篇文章，里面说HDF5具有高效I/O性能，于是也想尝试下。正好用Fortran写的CFD程序有变量的输出，这样就能同时把大数据和CFD的论文给搞定。">
+<meta name="twitter:image" content="http://yoursite.com/2019/06/15/Linux平台使用HDF5与Fortran/1560672281050.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/15/Linux平台使用HDF5与Fortran/">
+
+
+
+
+
+  <title>Linux平台使用HDF5与Fortran | Ga's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ga's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">发现生活中的美好</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/15/Linux平台使用HDF5与Fortran/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ga">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ga's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux平台使用HDF5与Fortran</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-15T11:39:29+08:00">
+                2019-06-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Review了一篇文章，里面说HDF5具有高效I/O性能，于是也想尝试下。正好用Fortran写的CFD程序有变量的输出，这样就能同时把大数据和CFD的论文给搞定。<a id="more"></a></p>
+<h2 id="Win10踏坑"><a href="#Win10踏坑" class="headerlink" title="Win10踏坑"></a>Win10踏坑</h2><p>在Windows10上试了各种方式，花了👴一两天时间，就是没能为Visual Studio安装好HDF5的Fortran版。前后尝试过的方式包括但不限于：</p>
+<ul>
+<li><p>下载编译好的文件（Pre-built Binary Distributions）：</p>
+<p><img src="/2019/06/15/Linux平台使用HDF5与Fortran/1560672281050.png" alt=""></p>
+<p>对于Win10解压就是个msi文件，安装了好像以后没啥用。总之使用vs编译的时候链接库路径不太对…</p>
+</li>
+<li><p>使用cmake编译。这个也是贼坑。下载<a href="https://www.hdfgroup.org/downloads/hdf5/source-code/" target="_blank" rel="noopener">https://www.hdfgroup.org/downloads/hdf5/source-code/</a></p>
+<ul>
+<li>自己build，windows有个bat，ubuntu有个sh，弄完了以后也是路径不太对。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Ubuntu踏坑"><a href="#Ubuntu踏坑" class="headerlink" title="Ubuntu踏坑"></a>Ubuntu踏坑</h2><p>最后终于参考<a href="https://www.hdfgroup.org/downloads/hdf5/source-code/" target="_blank" rel="noopener">这篇文章</a>在Ubuntu上安装好了，但是这哥们只安装了c的编译器。下载完了源码以后，底下其实有配置文件<code>hdf-x.x.xx/configure</code>，在使用<code>./configure</code>命令的时候可以参考配置参数：</p>
+<p><img src="/2019/06/15/Linux平台使用HDF5与Fortran/1560673029249.png" alt=""></p>
+<p>于是，最后的命令为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix /usr/<span class="built_in">local</span>/hdf5 --<span class="built_in">enable</span>-fortran</span><br></pre></td></tr></table></figure>
+<p>在参考原文安装<code>hdf5-helpers</code>和<code>libhdf5-serial-dev</code>最后就可以使用<code>h5fc</code>来编译Fortran脚本了！</p>
+<h2 id="HDF5代表先进生产力"><a href="#HDF5代表先进生产力" class="headerlink" title="HDF5代表先进生产力"></a>HDF5代表先进生产力</h2><h3 id="Python竞技场"><a href="#Python竞技场" class="headerlink" title="Python竞技场"></a>Python竞技场</h3><p>首先看看HDF5的Python版——H5PY的表现。事实上H5PY非常容易使用，直接<code>pip</code>就完事了。比较下直接写txt、<code>np.save</code>存为npy和写入HDF5的表现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> division</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> timeit</span><br><span class="line"><span class="keyword">import</span> h5py</span><br><span class="line"></span><br><span class="line">x = np.zeros([<span class="number">1000</span>, <span class="number">1000</span>])</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1000</span>):</span><br><span class="line">        x[i,j] = (i<span class="number">-1</span>)*(j<span class="number">-1</span>)-(j<span class="number">-1</span>)</span><br><span class="line">start = timeit.default_timer()</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'data.txt'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> data:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1000</span>):</span><br><span class="line">            data.write(<span class="string">'%d '</span>%(x[i,j]))</span><br><span class="line">        data.write(<span class="string">'\n'</span>)</span><br><span class="line">stop = timeit.default_timer()</span><br><span class="line">print(<span class="string">'Run time of saving to txt: '</span>, stop - start) </span><br><span class="line">t1 = stop-start</span><br><span class="line">start = timeit.default_timer()</span><br><span class="line">np.save(<span class="string">'data.npy'</span>, x)</span><br><span class="line">stop = timeit.default_timer()</span><br><span class="line">t2 = stop-start</span><br><span class="line"></span><br><span class="line">print(<span class="string">'Run time of saving to NPY: '</span>, stop - start) </span><br><span class="line"></span><br><span class="line">start = timeit.default_timer()</span><br><span class="line"><span class="keyword">with</span> h5py.File(<span class="string">'data.h5'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> hf:</span><br><span class="line">    hf.create_dataset(<span class="string">"dataset"</span>,  data=x)</span><br><span class="line">stop = timeit.default_timer()</span><br><span class="line">t3 = stop-start</span><br><span class="line"></span><br><span class="line">print(<span class="string">'Run time of saving to HDF5: '</span>, stop - start) </span><br><span class="line"></span><br><span class="line"><span class="comment"># with h5py.File('name-of-file.h5', 'r') as hf:</span></span><br><span class="line">    <span class="comment"># data = hf['name-of-dataset'][:]</span></span><br><span class="line"><span class="comment"># hf = h5py.File('x.h5')</span></span><br><span class="line">print(t1/t2, t1/t3)</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(&apos;Run time of saving to txt: &apos;, 1.0207746000000002)</span><br><span class="line">(&apos;Run time of saving to NPY: &apos;, 0.01416139999999988)</span><br><span class="line">(&apos;Run time of saving to HDF5: &apos;, 0.004843600000000059)</span><br><span class="line">(72.08147499541069, 210.74708894210664)</span><br><span class="line">[Finished in 1.9s]</span><br></pre></td></tr></table></figure>
+<p>从结果来看写个1000×1000的数组，<code>np.save</code>和HDF5比写入txt要优越多了，时间分别是写入txt的1/72和1/211。但是<code>np.save</code>和HDF5差距不超过一个数量级，当然HDF5的应用范围远比<code>npy</code>要广阔！</p>
+<h3 id="Fortran竞技场"><a href="#Fortran竞技场" class="headerlink" title="Fortran竞技场"></a>Fortran竞技场</h3><p>编译运行下面的Fortran程序：</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">PROGRAM</span></span> main</span><br><span class="line"></span><br><span class="line">  <span class="keyword">USE</span> HDF5</span><br><span class="line"></span><br><span class="line">  <span class="comment">! IMPLICIT NONE</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">CHARACTER</span>(LEN=<span class="number">14</span>), <span class="keyword">PARAMETER</span> :: filename = <span class="string">"h5ex_d_rdwr.h5"</span></span><br><span class="line">  <span class="keyword">CHARACTER</span>(LEN=<span class="number">3</span>) , <span class="keyword">PARAMETER</span> :: dataset = <span class="string">"DS1"</span></span><br><span class="line">  <span class="keyword">INTEGER</span>          , <span class="keyword">PARAMETER</span> :: dim0     = <span class="number">1000</span></span><br><span class="line">  <span class="keyword">INTEGER</span>          , <span class="keyword">PARAMETER</span> :: dim1     = <span class="number">1000</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">INTEGER</span> :: hdferr</span><br><span class="line">  <span class="keyword">INTEGER</span>(HID_T) :: <span class="keyword">file</span>, space, dset <span class="comment">! handles</span></span><br><span class="line">  <span class="keyword">INTEGER</span>(HSIZE_T), <span class="keyword">DIMENSION</span>(<span class="number">1</span>:<span class="number">2</span>)           :: dims = (/dim0, dim1/) <span class="comment">! size read/write buffer</span></span><br><span class="line">  <span class="keyword">INTEGER</span>         , <span class="keyword">DIMENSION</span>(<span class="number">1</span>:dim0,<span class="number">1</span>:dim1) :: wdata, &amp;  <span class="comment">! Write buffer </span></span><br><span class="line">                                                rdata     <span class="comment">! Read buffer</span></span><br><span class="line">  <span class="keyword">INTEGER</span> :: i, j</span><br><span class="line">  <span class="comment">!</span></span><br><span class="line">  <span class="comment">! Initialize FORTRAN interface.</span></span><br><span class="line">  <span class="comment">!</span></span><br><span class="line">  <span class="keyword">CALL</span> h5open_f(hdferr)</span><br><span class="line">  <span class="comment">!</span></span><br><span class="line">  <span class="comment">! Initialize data.</span></span><br><span class="line">  <span class="comment">!</span></span><br><span class="line">  <span class="keyword">DO</span> i = <span class="number">1</span>, dim0</span><br><span class="line">     <span class="keyword">DO</span> j = <span class="number">1</span>, dim1</span><br><span class="line">        wdata(i,j) = (i-<span class="number">1</span>)*(j-<span class="number">1</span>)-(j-<span class="number">1</span>)</span><br><span class="line">     <span class="keyword">ENDDO</span></span><br><span class="line">  <span class="keyword">ENDDO</span></span><br><span class="line">  <span class="comment">!</span></span><br><span class="line">  <span class="comment">! Create a new file using the default properties.</span></span><br><span class="line">  <span class="comment">!</span></span><br><span class="line">  <span class="keyword">CALL</span> <span class="built_in">CPU_TIME</span> ( time1 )</span><br><span class="line">  <span class="keyword">CALL</span> h5fcreate_f(filename, H5F_ACC_TRUNC_F, <span class="keyword">file</span>, hdferr)</span><br><span class="line">  <span class="comment">!</span></span><br><span class="line">  <span class="comment">! Create dataspace.  Setting size to be the current size.</span></span><br><span class="line">  <span class="comment">!</span></span><br><span class="line">  <span class="keyword">CALL</span> h5screate_simple_f(<span class="number">2</span>, dims, space, hdferr)</span><br><span class="line">  <span class="comment">!</span></span><br><span class="line">  <span class="comment">! Create the dataset.  We will use all default properties for this</span></span><br><span class="line">  <span class="comment">! example.</span></span><br><span class="line">  <span class="comment">!</span></span><br><span class="line">  <span class="keyword">CALL</span> h5dcreate_f(<span class="keyword">file</span>, dataset, H5T_STD_I32LE, space, dset, hdferr)</span><br><span class="line">  <span class="comment">!</span></span><br><span class="line">  <span class="comment">! Write the data to the dataset.</span></span><br><span class="line">  <span class="comment">!</span></span><br><span class="line">  <span class="keyword">CALL</span> h5dwrite_f(dset, H5T_NATIVE_INTEGER, wdata, dims, hdferr)</span><br><span class="line">  <span class="comment">!</span></span><br><span class="line">  <span class="comment">! Close and release resources.</span></span><br><span class="line">  <span class="comment">!</span></span><br><span class="line">  <span class="keyword">CALL</span> h5dclose_f(dset , hdferr)</span><br><span class="line">  <span class="keyword">CALL</span> h5sclose_f(space, hdferr)</span><br><span class="line">  <span class="keyword">CALL</span> h5fclose_f(<span class="keyword">file</span> , hdferr)</span><br><span class="line">  <span class="comment">!</span></span><br><span class="line"> </span><br><span class="line">  <span class="keyword">CALL</span> <span class="built_in">CPU_TIME</span> ( time2 )</span><br><span class="line">      </span><br><span class="line">      <span class="built_in">write</span>(*,*) <span class="string">'Run time of saving to HDF5:'</span></span><br><span class="line">      <span class="built_in">write</span>(*,*) time2-time1</span><br><span class="line">  <span class="keyword">CALL</span> <span class="built_in">CPU_TIME</span> ( time3 )</span><br><span class="line">  open(<span class="number">30</span>, <span class="keyword">file</span>=<span class="string">'file.txt'</span>)</span><br><span class="line">  <span class="keyword">DO</span> i = <span class="number">1</span>, dim0</span><br><span class="line">     <span class="keyword">DO</span> j = <span class="number">1</span>, dim1</span><br><span class="line">        <span class="built_in">write</span>(<span class="number">30</span>, *) wdata(i,j)</span><br><span class="line">     <span class="keyword">ENDDO</span></span><br><span class="line">  <span class="keyword">ENDDO</span> </span><br><span class="line">  <span class="keyword">CALL</span> <span class="built_in">CPU_TIME</span> ( time4 )</span><br><span class="line">  <span class="built_in">write</span>(*,*) <span class="string">'Run time of saving to TXT:'</span></span><br><span class="line">  <span class="built_in">write</span>(*,*) time4-time3</span><br><span class="line"><span class="keyword">END</span> <span class="function"><span class="keyword">PROGRAM</span></span> main</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<p><img src="/2019/06/15/Linux平台使用HDF5与Fortran/1560674944417.png" alt="Fortran上单个文件写入运行时间对比"></p>
+<p>这里写入HDF5的时间是写入txt时间的1/87，差距比Python的小。但是两者的绝对写入时间都要少一半左右，看来Fortran快的名声不是盖的！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/HDF5/" rel="tag"># HDF5</a>
+          
+            <a href="/tags/Fortran/" rel="tag"># Fortran</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/11/Finite-volume-implemented-by-MATLAB/" rel="next" title="Finite volume implemented by MATLAB">
+                <i class="fa fa-chevron-left"></i> Finite volume implemented by MATLAB
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Ga</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Win10踏坑"><span class="nav-number">2.</span> <span class="nav-text">Win10踏坑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ubuntu踏坑"><span class="nav-number">3.</span> <span class="nav-text">Ubuntu踏坑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HDF5代表先进生产力"><span class="nav-number">4.</span> <span class="nav-text">HDF5代表先进生产力</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Python竞技场"><span class="nav-number">4.1.</span> <span class="nav-text">Python竞技场</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fortran竞技场"><span class="nav-number">4.2.</span> <span class="nav-text">Fortran竞技场</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ga</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
