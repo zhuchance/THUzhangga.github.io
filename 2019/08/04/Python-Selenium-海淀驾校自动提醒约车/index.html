@@ -96,9 +96,9 @@
 <meta property="og:image" content="http://yoursite.com/2019/08/04/Python-Selenium-海淀驾校自动提醒约车/1564886606753.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/04/Python-Selenium-海淀驾校自动提醒约车/1564886757357.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/04/Python-Selenium-海淀驾校自动提醒约车/1564886908183.png">
-<meta property="og:image" content="http://yoursite.com/2019/08/04/Python-Selenium-海淀驾校自动提醒约车/约车页面源码">
+<meta property="og:image" content="http://yoursite.com/2019/08/04/Python-Selenium-海淀驾校自动提醒约车/约车页面源码.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/04/Python-Selenium-海淀驾校自动提醒约车/1564887412476.png">
-<meta property="og:updated_time" content="2019-08-04T05:30:54.217Z">
+<meta property="og:updated_time" content="2019-08-04T05:34:25.372Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python Selenium 海淀驾校自动提升约车">
 <meta name="twitter:description" content="前言暑假报名了海淀驾校的散班，需要自行约科目二练习。在官方APP上，每天早上7:35开始开放部分名额，但是起了好几次早愣是没抢到。室友告诉我需要自己有时间就刷APP，兴许能捡漏。但我试了好久每次都是0车可约。于是我开始想能不能像12306抢票一样自动在后台不停地刷，一旦有人退立刻能抢到。">
@@ -355,7 +355,7 @@
 <p>这里又有一个坑，检查元素发现上图的可约车数目在<code>CellCar</code>里面：</p>
 <p><img src="/2019/08/04/Python-Selenium-海淀驾校自动提醒约车/1564886908183.png" alt="可约车数目元素"></p>
 <p>但是用<code>driver.page_source</code>发现源码如下：</p>
-<p><img src="/2019/08/04/Python-Selenium-海淀驾校自动提醒约车/约车页面源码" alt="1564887001714"></p>
+<p><img src="/2019/08/04/Python-Selenium-海淀驾校自动提醒约车/约车页面源码.png" alt="约车页面源码"></p>
 <p>原来约车信息都在一个<code>frame</code>里面！经过查询发现应该在<code>main</code>这个frame里面：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">driver.switch_to.frame(driver.find_element_by_css_selector(<span class="string">"frame[name='main']"</span>))</span><br><span class="line">cells = driver.find_elements_by_class_name(<span class="string">'CellCar'</span>)</span><br><span class="line">txt = [i.text <span class="keyword">for</span> i <span class="keyword">in</span> cells]</span><br></pre></td></tr></table></figure>
 <p>于是我获得了24个<code>cell</code>，分别是从今天到下一周每天3节课的可约车数目。我的目标是，当可约车从无到有提醒我约车（我报的散班，周六周日即使有我也约不了）。我把查询的结果存到<code>records.txt</code>里面，当出现从无到有可以立刻提醒我。</p>
